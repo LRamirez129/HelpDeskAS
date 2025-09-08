@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './modulo.css'; 
+import '../modulo.css'; 
 
 // Importa tus imágenes de iconos
 import dashboardIcon from '../../Iconos/dashboard.png';
@@ -12,7 +12,6 @@ import TicketsModule from './Ticket';
 import DetalleTicketPage from './DetalleTicket';
 import Reporteria from './Reportes/Reporteria';
 
-// Se actualiza el array para usar las imágenes importadas
 const navItems = [
   { id: 'dashboard', label: 'Dashboard', icon: dashboardIcon },
   { id: 'tickets', label: 'Tickets', icon: ticketsIcon },
@@ -67,5 +66,5 @@ function ModuloTecnico() {
   );
 }
 
-// Se exporta la función ModuloTecnico
+
 export default ModuloTecnico;
