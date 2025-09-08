@@ -1,0 +1,185 @@
+
+
+/* -------------------------------------------------------------------------------------------------- */
+/* ---------------------------------- Estilos para Ticket ------------------------------- */
+/* -------------------------------------------------------------------------------------------------- */
+.tickets-module {
+    padding: 24px;
+    background-color: #f0f2f5;
+    font-family: Arial, sans-serif;
+}
+
+.tickets-header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.tickets-header p {
+    font-size: 14px;
+    color: #666;
+    margin: 4px 0 24px 0;
+}
+
+.search-and-filter-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    position: relative;
+    width: 60%;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px 10px 10px 40px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+.date-filter {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.date-filter i {
+    margin-right: 8px;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.filter-btn.active {
+    border-color: #007bff;
+    color: #007bff;
+    background-color: #e6f2ff;
+}
+
+.ticket-list-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.ticket-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ticket-item {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+.ticket-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.ticket-title {
+    margin: 0;
+    font-size: 18px;
+}
+
+.ticket-item-tags {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.status-tag, .type-tag, .media-tag {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: capitalize;
+}
+
+.media-tag { background-color: #ffeb3b; color: #333; }
+.status-tag.terminado { background-color: #e8f5e9; color: #43a047; }
+.status-tag.abierto { background-color: #ffebee; color: #d32f2f; }
+.status-tag.en-proceso { background-color: #fff3e0; color: #ff9800; }
+.status-tag.cerrado { background-color: #e0e0e0; color: #757575; }
+.type-tag.software { background-color: #e3f2fd; color: #1565c0; }
+.type-tag.hardware { background-color: #f3e5f5; color: #9c27b0; }
+
+.ticket-description {
+    font-size: 14px;
+    color: #555;
+    margin: 0 0 15px 0;
+}
+
+.ticket-info p {
+    font-size: 13px;
+    color: #666;
+    margin: 0 0 5px 0;
+}
+
+.ticket-info i {
+    margin-right: 8px;
+    color: #aaa;
+}
+
+.view-detail-btn {
+    background-color: #f0f2f5;
+    color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.view-detail-btn:hover {
+    background-color: #e6e9ee;
+}
+
+.no-tickets {
+    text-align: center;
+    color: #888;
+    margin-top: 50px;
+}
+
+
+
+
+

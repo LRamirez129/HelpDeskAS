@@ -1,0 +1,108 @@
+/* reporteria.css */
+
+/* Contenedor principal de la vista de reportes */
+.reporteria-container {
+    padding: 20px;
+    background-color: #f0f2f5; /* Color de fondo gris claro */
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* Contenedor de las tarjetas de reporte, usando flexbox */
+.report-cards-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente línea */
+    justify-content: center; /* Centra las tarjetas horizontalmente */
+    gap: 20px; /* Espacio entre las tarjetas */
+}
+
+/* Estilos para cada tarjeta individual */
+.report-card {
+    /* Flex-basis calcula el tamaño para que quepan 5 en una fila */
+    flex-basis: calc(20% - 16px);
+    max-width: calc(20% - 16px);
+    background-color: #2a3c50; /* Azul oscuro para el fondo */
+    color: #fff;
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    height: 150px; /* Tamaño fijo para que todos sean iguales */
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Ajustes para pantallas más pequeñas, para mantener el diseño responsivo */
+@media (max-width: 1200px) {
+    .report-card {
+        flex-basis: calc(25% - 15px); /* 4 tarjetas por fila */
+        max-width: calc(25% - 15px);
+    }
+}
+
+@media (max-width: 900px) {
+    .report-card {
+        flex-basis: calc(33.33% - 14px); /* 3 tarjetas por fila */
+        max-width: calc(33.33% - 14px);
+    }
+}
+
+@media (max-width: 600px) {
+    .report-card {
+        flex-basis: calc(50% - 10px); /* 2 tarjetas por fila */
+        max-width: calc(50% - 10px);
+    }
+}
+
+/* Efecto de elevación al pasar el mouse */
+.report-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para el ícono */
+.card-icon {
+    font-size: 3rem;
+    color: #88a3b8; /* Azul claro para el ícono */
+    margin-bottom: 5px;
+    transition: color 0.3s ease;
+}
+
+/* Efecto de hover en el ícono */
+.report-card:hover .card-icon {
+    color: #fff; /* El ícono se vuelve blanco */
+}
+
+/* Estilo para el título */
+.card-title {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+    color: #e0e0e0;
+}
+
+/* Estilos para el botón de volver */
+.back-button {
+    background-color: #1e88e5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #1565c0;
+}
+
+/* Contenedor del contenido del reporte individual */
+.reporteria-content {
+    padding: 20px;
+}
