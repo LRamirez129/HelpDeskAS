@@ -1,25 +1,28 @@
 import React, { useState } from 'react';
-import '../modulo.css'; 
+import '../modulo.css';
 
 // Importa tus imágenes de iconos
 import dashboardIcon from '../../Iconos/dashboard.png';
 import historyIcon from '../../Iconos/history.png';
 import reportsIcon from '../../Iconos/reports.png';
 import ticketsIcon from '../../Iconos/tickets.gif';
+import catalogsIcon from '../../Iconos/catalogs.png';
 
 import DashboardPage from './Dashboard';
 import TicketsModule from './Ticket';
 import DetalleTicketPage from './DetalleTicket';
 import Reporteria from './Reportes/Reporteria';
+import Catalogo from './Catalogos/Catalogo'; 
+
 
 const navItems = [
   { id: 'dashboard', label: 'Dashboard', icon: dashboardIcon },
-  { id: 'tickets', label: 'Tickets', icon: ticketsIcon },
-  { id: 'detalle', label: 'Historial de Tickets', icon: historyIcon },
+  { id: 'detalle', label: 'Tickets', icon: ticketsIcon },
+  { id: 'catalogs', label: 'Catálogos', icon: catalogsIcon }, 
+  { id: 'tickets', label: 'Historial de Tickets', icon: historyIcon },
   { id: 'informes', label: 'Informes', icon: reportsIcon },
 ];
 
-// Se corrige el nombre de la función principal a ModuloTecnico
 function ModuloTecnico() {
   const [activeModule, setActiveModule] = useState('dashboard');
 
@@ -29,6 +32,8 @@ function ModuloTecnico() {
         return <DashboardPage />;
       case 'tickets':
         return <TicketsModule />;
+      case 'catalogs':
+        return <Catalogo />; // Renderiza el componente de Catálogos 🖼️
       case 'detalle':
         return <DetalleTicketPage />;
       case 'informes':
@@ -52,8 +57,7 @@ function ModuloTecnico() {
               className={`nav-item ${activeModule === item.id ? 'active' : ''}`}
               onClick={() => setActiveModule(item.id)}
             >
-              {/* Se reemplaza la etiqueta <i> con <img> para usar tus imágenes */}
-              <img src={item.icon} alt={item.label} className="nav-icon" /> 
+              <img src={item.icon} alt={item.label} className="nav-icon" />
               {item.label}
             </button>
           ))}
@@ -65,6 +69,5 @@ function ModuloTecnico() {
     </div>
   );
 }
-
 
 export default ModuloTecnico;

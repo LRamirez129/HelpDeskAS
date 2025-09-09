@@ -1,0 +1,319 @@
+/* Colores base del sistema */
+:root {
+    --primary-blue: #007bff; /* Podríamos mantener este para otros fines o ajustarlo */
+    --light-blue: #e6f2ff;
+    --dark-grey: #333;
+    --medium-grey: #666;
+    --light-grey: #f2f2f2;
+    --white: #ffffff;
+    --red-delete: #dc3545;
+    --yellow-update: #ffc107;
+
+    /* Nuevos colores solicitados */
+    --soft-celeste: #e0f7fa; /* Mantenemos el celeste claro de fondo */
+    --royal-blue: #0074B7; /* Para elementos principales como títulos, botones primarios */
+    --navy-blue: #003B73;  /* Para elementos más oscuros, como texto de tooltip o bordes */
+}
+
+/* Estilos para el contenedor principal de catálogos */
+.catalogos-container {
+    padding: 20px;
+    background-color: var(--soft-celeste);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Estilos de las pestañas */
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+}
+
+.tabs button {
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--medium-grey);
+    background-color: var(--white);
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tabs button:hover {
+    color: var(--royal-blue); /* Ajustado a royal blue */
+}
+
+.tabs button.active {
+    color: var(--royal-blue); /* Ajustado a royal blue */
+    border-bottom: 2px solid var(--royal-blue); /* Ajustado a royal blue */
+}
+
+/* --- Estilos compartidos para la vista de lista --- */
+.tecnicos-list-container {
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.tecnicos-list-container h3 {
+    font-size: 24px;
+    color: var(--royal-blue); /* Ajustado a royal blue */
+    margin-bottom: 20px;
+}
+
+.btn-create {
+    background-color: var(--royal-blue); /* Ajustado a royal blue */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-create:hover {
+    background-color: var(--navy-blue); /* Ajustado a navy blue para hover */
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th, .data-table td {
+    border: 1px solid #eee;
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+    color: var(--navy-blue); /* Ajustado a navy blue */
+}
+
+.data-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: var(--navy-blue); /* Ajustado a navy blue */
+}
+
+.data-table tr:nth-child(even) {
+    background-color: #fdfdfd;
+}
+
+.status-dot {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.status-dot.active {
+    background-color: green;
+}
+
+.status-dot.inactive {
+    background-color: red;
+}
+
+/* Estilos de los iconos de acción y tooltips */
+.action-buttons-container {
+    display: flex;
+    gap: 5px;
+}
+
+.btn-action {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    padding: 5px;
+}
+
+.action-icon {
+    width: 28px;
+    height: 28px;
+    transition: transform 0.2s ease;
+}
+
+.btn-action:hover .action-icon {
+    transform: scale(1.1);
+}
+
+/* Tooltip para mostrar texto al pasar el cursor */
+[data-tooltip]::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--navy-blue); /* Ajustado a navy blue */
+    color: var(--white);
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+[data-tooltip]:hover::before {
+    opacity: 1;
+}
+
+/* --- Estilos para los modales --- */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--royal-blue); /* Ajustado a royal blue */
+}
+
+.modal-content h2 {
+    color: var(--royal-blue); /* Ajustado a royal blue */
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--navy-blue); /* Ajustado a navy blue */
+}
+
+.form-group input:not([type="radio"]), .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: var(--navy-blue); /* Ajustado a navy blue */
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.form-row .form-group input {
+    width: 100%;
+}
+
+/* Estilo para el grupo de radio buttons */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.radio-group .radio-options {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.radio-group .radio-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: normal;
+    color: var(--navy-blue); /* Ajustado a navy blue */
+    cursor: pointer;
+}
+
+.radio-group input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--royal-blue); /* Ajustado a royal blue */
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+}
+
+.radio-group input[type="radio"]:checked::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background-color: var(--royal-blue); /* Ajustado a royal blue */
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-primary {
+    background-color: var(--royal-blue); /* Ajustado a royal blue */
+    color: var(--white);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--navy-blue); /* Ajustado a navy blue para hover */
+}
+
+.btn-secondary {
+    background-color: var(--white);
+    color: var(--royal-blue); /* Ajustado a royal blue */
+    border: 1px solid var(--royal-blue); /* Ajustado a royal blue */
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: var(--royal-blue); /* Ajustado a royal blue */
+    color: var(--white);
+}

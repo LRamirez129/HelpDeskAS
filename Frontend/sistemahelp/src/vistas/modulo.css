@@ -44,28 +44,28 @@
 /* Estilo para los botones de navegación */
 .nav-item {
   display: flex;
-  flex-direction: column; /* Esto apila el icono y el texto verticalmente */
-  align-items: center;    /* Esto centra el icono y el texto */
-  text-align: center;     /* Asegura que el texto se centre */
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   padding: 12px 16px;
   margin-bottom: 8px;
   border: none;
   background-color: transparent;
   cursor: pointer;
   font-size: 16px;
-  color: #333;
+  color: #ffffff; /* Texto blanco para ítems no activos */
   border-radius: 8px;
   transition: background-color 0.3s, color 0.3s;
 }
 
 /* Estilo para los iconos de navegación */
 .nav-icon {
-  width: 40px; /* ¡Icono más grande! */
+  width: 40px;
   height: 40px;
-  margin-right: 0; /* Elimina el margen lateral, ya que ahora están apilados */
-  margin-bottom: 8px; /* Agrega espacio entre el icono y el texto */
+  margin-right: 0;
+  margin-bottom: 8px;
   object-fit: contain;
-  filter: brightness(0.1) invert(0); /* Filtro para un color azul más intenso */
+  filter: brightness(0) invert(1); /* <-- ¡Aquí está el cambio! Icono blanco para ítems no activos */
 }
 
 /* Estilo para el botón activo */
@@ -76,7 +76,7 @@
 }
 
 .nav-item.active .nav-icon {
-  filter: none; /* Desactiva el filtro para que el icono tenga su color original o se adapte */
+  filter: none; /* Desactiva el filtro para que el icono tenga su color original cuando está activo */
 }
 
 /* Contenido Principal */
