@@ -1,0 +1,192 @@
+/* Colores y Variables (Declarados para consistencia) */
+:root {
+    --royal-blue: #0074B7;
+    --navy-blue: #003B73;
+    --soft-celeste: #e0f7fa;
+    --light-grey: #f8f9fa;
+    --medium-grey: #6c757d;
+    --white: #ffffff;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --info: #17a2b8;
+}
+
+/* -------------------------------------- */
+/* Estilos Principales de la Página */
+/* -------------------------------------- */
+
+.base-conocimiento-container {
+    padding: 30px;
+    background-color: var(--soft-celeste);
+    min-height: 100vh;
+}
+
+.main-content-wrapper {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.ticket-content {
+    flex: 3;
+}
+
+.sidebar-actions {
+    flex: 1;
+}
+
+/* -------------------------------------- */
+/* Estilos para Paneles y Tarjetas */
+/* -------------------------------------- */
+
+.panel {
+    background-color: var(--white);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.panel h2, .panel h3 {
+    color: var(--navy-blue);
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* -------------------------------------- */
+/* Estilos de la Barra de Búsqueda y Botón */
+/* -------------------------------------- */
+
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.search-bar input[type="text"] {
+    flex-grow: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Estilo para el botón de búsqueda con icono (CORREGIDO) */
+.btn-primary.icon-only {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary.icon-only:hover {
+    background-color: var(--light-grey); /* Opcional: un ligero color al pasar el cursor */
+}
+
+.search-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Estilos para el tooltip (texto de ayuda) */
+[data-tooltip]::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--navy-blue);
+    color: var(--white);
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+[data-tooltip]:hover::before {
+    opacity: 1;
+}
+
+/* -------------------------------------- */
+/* Estilos de la Tabla de Artículos */
+/* -------------------------------------- */
+
+.knowledge-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.knowledge-table th, .knowledge-table td {
+    border: 1px solid #eee;
+    padding: 15px;
+    text-align: left;
+    font-size: 14px;
+    color: var(--navy-blue);
+}
+
+.knowledge-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: var(--royal-blue);
+}
+
+.knowledge-table tr:nth-child(even) {
+    background-color: #fdfdfd;
+}
+
+/* -------------------------------------- */
+/* Estilos del Panel de Acción para SLA */
+/* -------------------------------------- */
+
+.sla-action-panel {
+    border: 1px dashed var(--royal-blue);
+    text-align: center;
+}
+
+/* Estilos para los botones de acción */
+.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--royal-blue);
+    color: var(--white);
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.btn-primary:hover {
+    background-color: var(--navy-blue);
+}
+
+/* -------------------------------------- */
+/* Estilos Responsivos */
+/* -------------------------------------- */
+
+@media (max-width: 768px) {
+    .main-content-wrapper {
+        flex-direction: column;
+    }
+}

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Catalogos.css';
+import guardarIcon from '../../../Iconos/guardar.png';
+import cancelarIcon from '../../../Iconos/cancelar.png';
 
 const TecnicoModal = ({ tecnico, onSave, onClose }) => {
     const [formData, setFormData] = useState({
@@ -64,7 +66,12 @@ const TecnicoModal = ({ tecnico, onSave, onClose }) => {
                         </div>
                         <div className="form-group">
                             <label>Extensión</label>
-                            <input type="text" name="extension" value={formData.extension} onChange={handleChange} />
+                            <select name="extension" value={formData.extension} onChange={handleChange}>
+                                <option value="">-- Seleccionar --</option>
+                                <option value="1001">1001</option>
+                                <option value="1002">1002</option>
+                                {/* Agrega más opciones aquí si es necesario */}
+                            </select>
                         </div>
                     </div>
                     <div className="form-group radio-group">
@@ -92,13 +99,21 @@ const TecnicoModal = ({ tecnico, onSave, onClose }) => {
                             </label>
                         </div>
                     </div>
-                    <div className="form-buttons">
-                        <button type="submit" className="btn-primary">
-                            Guardar
-                        </button>
-                        <button type="button" onClick={onClose} className="btn-secondary">
-                            Cancelar
-                        </button>
+                    <div className="form-buttons-icons">
+                        <img 
+                            src={guardarIcon} 
+                            alt="Guardar" 
+                            className="btn-action-icon"
+                            data-tooltip="Guardar"
+                            onClick={handleSubmit}
+                        />
+                        <img 
+                            src={cancelarIcon} 
+                            alt="Cancelar" 
+                            className="btn-action-icon"
+                            data-tooltip="Cancelar"
+                            onClick={onClose}
+                        />
                     </div>
                 </form>
             </div>
