@@ -3,7 +3,7 @@
 /* Contenedor principal de la vista de reportes */
 .reporteria-container {
     padding: 20px;
-    background-color: #f0f2f5; /* Color de fondo gris claro */
+    background-color: #e0f7fa; /* Color de fondo gris claro */
     min-height: 100vh;
     font-family: Arial, sans-serif;
 }
@@ -21,7 +21,7 @@
     /* Flex-basis calcula el tamaño para que quepan 5 en una fila */
     flex-basis: calc(20% - 16px);
     max-width: calc(20% - 16px);
-    background-color: #2a3c50; /* Azul oscuro para el fondo */
+    background-color: #274c77; /* Azul oscuro para el fondo */
     color: #fff;
     border-radius: 8px; /* Bordes redondeados */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

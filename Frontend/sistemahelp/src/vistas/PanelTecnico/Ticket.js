@@ -1,47 +1,9 @@
 import React, { useState } from 'react';
 import './historial.css';
+// import emptyStateIcon from './assets/empty-state.png'; // Asegúrate de tener un icono aquí
 
 const mockTickets = [
-    {
-        id: 1,
-        title: 'Configuración de correo electrónico',
-        description: 'Nuevo empleado necesita configuración de correo corporativo.',
-        status: 'terminado',
-        category: 'software',
-        assignedTo: 'Ana Silva',
-        date: '20/1/2025',
-        time: '11:30'
-    },
-    {
-        id: 2,
-        title: 'Instalación de software especializado',
-        description: 'Instalar AutoCAD en 5 equipos del departamento de diseño',
-        status: 'abierto',
-        category: 'software',
-        assignedTo: 'Roberto Díaz',
-        date: '20/1/2025',
-        time: '11:00'
-    },
-    {
-        id: 3,
-        title: 'Fallo en la red de la oficina',
-        description: 'Intermitencia en la conexión a internet en el departamento de contabilidad.',
-        status: 'en-proceso',
-        category: 'hardware',
-        assignedTo: 'Luis Mendoza',
-        date: '19/1/2025',
-        time: '10:00'
-    },
-    {
-        id: 4,
-        title: 'Reparación de impresora',
-        description: 'La impresora no enciende y no da señal de vida.',
-        status: 'cerrado',
-        category: 'hardware',
-        assignedTo: 'Juan Perez',
-        date: '18/1/2025',
-        time: '15:00'
-    },
+    // La lista de tickets está vacía para mostrar el estado
 ];
 
 const TicketsModule = () => {
@@ -82,7 +44,7 @@ const TicketsModule = () => {
     };
 
     return (
-        <div className="tickets-module">
+        <div className="historial-container">
             <header className="tickets-header">
                 <div className="header-info">
                     <h1>Historial de Tickets</h1>
@@ -94,11 +56,6 @@ const TicketsModule = () => {
                 <div className="search-bar">
                     <i className="fas fa-search search-icon"></i>
                     <input type="text" placeholder="Buscar por título, usuario o categoría..." />
-                </div>
-                <div className="date-filter">
-                    <i className="fas fa-calendar-alt"></i>
-                    <span>Fecha de actualiza...</span>
-                    <i className="fas fa-chevron-down"></i>
                 </div>
             </div>
 
@@ -142,7 +99,11 @@ const TicketsModule = () => {
                         </div>
                     ))
                 ) : (
-                    <p className="no-tickets">No hay tickets para mostrar con este filtro.</p>
+                    <div className="empty-state-panel">
+                        {/* <img src={emptyStateIcon} alt="Sin tickets" className="empty-state-icon" /> */}
+                        <h3>No hay tickets en tu historial</h3>
+                        <p>Cuando finalices tickets, aparecerán aquí.</p>
+                    </div>
                 )}
             </div>
         </div>

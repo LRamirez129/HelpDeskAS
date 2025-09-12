@@ -146,11 +146,11 @@
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-    position: relative; /* Esencial para el tooltip */
+    position: relative;
 }
 
 .tab-button .tab-icon {
-    width: 48px; /* Tamaño del icono aumentado a 48px */
+    width: 48px;
     height: 48px;
 }
 
@@ -347,29 +347,40 @@ textarea, select {
 /* Estilo para el grupo de acciones de estado */
 .status-actions {
     display: flex;
-    flex-direction: column; /* Apila el selector y los iconos verticalmente */
-    gap: 15px; /* Espacio entre el selector y el grupo de iconos */
+    flex-direction: column;
+    gap: 15px;
     margin-bottom: 25px;
 }
 
 .status-select {
-    width: 100%; /* El selector ocupa todo el ancho disponible */
-    align-self: flex-start; /* Alinea el selector a la izquierda */
+    width: 100%;
+    align-self: flex-start;
 }
 
 /* Contenedor para los nuevos iconos de acción */
 .action-icons-container {
     display: flex;
-    gap: 10px; /* Espacio entre los iconos */
-    align-self: flex-start; /* Alinea los iconos a la izquierda */
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Nuevo estilo para los botones de acción */
+.action-button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+    width: 60px; 
 }
 
 .action-icon {
-    width: 40px; /* Tamaño de los nuevos iconos de acción */
+    width: 40px;
     height: 40px;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
-    position: relative; /* Para el tooltip */
+    object-fit: contain;
 }
 
 .action-icon:hover {
@@ -387,10 +398,10 @@ textarea, select {
         gap: 10px;
     }
     .status-actions {
-        align-items: center; /* Centra los elementos en pantallas pequeñas */
+        align-items: center;
     }
     .status-select, .action-icons-container {
         width: 100%;
-        justify-content: center; /* Centra los iconos en pantallas pequeñas */
+        justify-content: center;
     }
 }

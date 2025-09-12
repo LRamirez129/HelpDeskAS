@@ -95,20 +95,26 @@ const DetalleTicketPage = () => {
                                 <option>Cerrado</option>
                             </select>
                             <div className="action-icons-container">
-                                <img 
-                                    src={cambiarIcon} 
-                                    alt="Cambiar" 
-                                    className="action-icon" 
-                                    data-tooltip="Cambiar Estado" 
-                                    // onClick={() => handleCambiarEstado()}
-                                />
-                                <img 
-                                    src={terminarIcon} 
-                                    alt="Completar" 
-                                    className="action-icon" 
-                                    data-tooltip="Terminar Ticket" 
-                                    // onClick={() => handleCompletarTicket()}
-                                />
+                                <button
+                                    className="action-button"
+                                    data-tooltip="Cambiar Estado"
+                                >
+                                    <img 
+                                        src={cambiarIcon} 
+                                        alt="Cambiar" 
+                                        className="action-icon" 
+                                    />
+                                </button>
+                                <button
+                                    className="action-button"
+                                    data-tooltip="Terminar Ticket"
+                                >
+                                    <img 
+                                        src={terminarIcon} 
+                                        alt="Completar" 
+                                        className="action-icon" 
+                                    />
+                                </button>
                             </div>
                         </div>
                     </div>
