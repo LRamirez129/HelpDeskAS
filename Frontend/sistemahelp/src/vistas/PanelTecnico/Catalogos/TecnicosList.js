@@ -3,7 +3,7 @@ import TecnicoModal from './TecnicoModal';
 import './Catalogos.css';
 
 // Importar iconos (asegúrate de que estas rutas sean correctas)
-import updateIcon from '../../../Iconos/actualizar.png';
+import updateIcon from '../../../Iconos/editar.png';
 import deleteIcon from '../../../Iconos/eliminar.png';
 
 const initialData = [

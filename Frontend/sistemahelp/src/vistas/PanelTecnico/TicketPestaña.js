@@ -41,13 +41,11 @@ const TicketPestana = ({ setActiveModule }) => {
                             </div>
                         </div>
                         <div className="ticket-card-actions">
-                            <button className="action-button abrir-button" onClick={() => handleAbrirTicket(ticket.id)}>
-                                <img src={abrirIcono} alt="Abrir" />
-                                <span>Abrir</span>
+                            <button className="action-button abrir-button" onClick={() => handleAbrirTicket(ticket.id)} data-tooltip="Detalle">
+                                <center><img src={abrirIcono} alt="Abrir" /></center>
                             </button>
-                            <button className="action-button sla-button" onClick={() => handleSla(ticket.id)}>
-                                <img src={slaIcono} alt="SLA" />
-                                <span>SLA</span>
+                            <button className="action-button sla-button" onClick={() => handleSla(ticket.id)} data-tooltip="SLA">
+                                <center><img src={slaIcono} alt="SLA" /></center>
                             </button>
                         </div>
                     </div>

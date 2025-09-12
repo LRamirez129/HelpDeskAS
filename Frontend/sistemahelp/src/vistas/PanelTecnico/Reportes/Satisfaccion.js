@@ -38,11 +38,11 @@ function ReporteSatisfaccion() {
 
             <div style={styles.summarySection}>
                 <div style={styles.metricCard}>
-                    <span style={styles.metricValue}>{averageRating}</span>
+                    <span style={styles.metricValue}>{averageRating}</span><br />
                     <span style={styles.metricLabel}>Promedio de Estrellas</span>
                 </div>
                 <div style={styles.metricCard}>
-                    <span style={styles.metricValue}>{totalSurveys}</span>
+                    <span style={styles.metricValue}>{totalSurveys}</span><br />
                     <span style={styles.metricLabel}>Encuestas Analizadas</span>
                 </div>
             </div>
@@ -64,7 +64,7 @@ function ReporteSatisfaccion() {
 }
 
 const styles = {
-    container: { padding: '20px', fontFamily: 'Arial, sans-serif' },
+    container: { padding: '20px', fontFamily: 'Arial, sans-serif', color: '#333' },
     subtitle: { fontSize: '0.9em', color: '#777', marginBottom: '20px' },
     filterSection: { marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' },
     filterSelect: { padding: '8px', borderRadius: '5px', border: '1px solid #ccc' },

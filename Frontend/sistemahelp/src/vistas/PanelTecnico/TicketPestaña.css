@@ -127,7 +127,7 @@
 
 /* Estilo de los botones */
 .action-button {
-    display: flex;
+    /*display: flex;*/
     align-items: center;
     gap: 5px;
     padding: 8px 12px;
@@ -138,8 +138,8 @@
 }
 
 .action-button img {
-    height: 18px;
-    width: 18px;
+    height: 30px;
+    width: 30px;
 }
 
 .abrir-button {
