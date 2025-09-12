@@ -11,7 +11,7 @@
   width: 250px;
   background-color: #3b6cb1;
   padding: 20px;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 2px 0 10px rgba(241, 237, 237, 0.05);
   display: flex;
   flex-direction: column;
 }
@@ -84,4 +84,11 @@
   flex-grow: 1;
   padding: 24px;
   background-color: #f8f9fa;
+}
+
+.back-button--inline{
+  position: static !important; /* anula el absolute del header */
+  top: auto !important;
+  left: auto !important;
+  margin-right: 8px;           /* un poco de aire frente al título */
 }

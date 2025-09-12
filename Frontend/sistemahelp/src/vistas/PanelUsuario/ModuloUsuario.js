@@ -1,67 +1,118 @@
-import React, { useState } from 'react';
-import '../modulo.css';
+import React, { useState, useEffect } from "react";
+import MenuUsuario from "./componentes/menuusuario";
+import "../modulo.css"; // mantiene tu estilo general si lo usas en otros paneles
 
-// Importa los iconos
-import dashboardIcon from '../../Iconos/dashboard.png';
-import historyIcon from '../../Iconos/history.png';
-import reportsIcon from '../../Iconos/reports.png';
-import ticketsIcon from '../../Iconos/tickets.gif';
+import DetalleTicketTecnico from "../PanelTecnico/ProcesosTec/DetalleTicket";
+import TicketTecnico from "../PanelTecnico/Ticket";
 
+import ReportarFalla from "./componentes/reportarfalla";
 
-const navItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: dashboardIcon },
-  { id: 'tickets', label: 'Tickets', icon: ticketsIcon },
-  { id: 'detalle', label: 'Historial de Tickets', icon: historyIcon },
-  { id: 'informes', label: 'Informes', icon: reportsIcon },
-];
+/**
+ * ModuloUsuario: sin sidebar, menú central y vistas internas.
+ * Vistas: "menu" | "tickets" | "historial" | "reportar"
+ */
+export default function ModuloUsuario({ onToggleBackButton }) {
+  const [view, setView] = useState("menu");
 
-function ModuloUsuario() {
-  const [activeModule, setActiveModule] = useState('dashboard');
+  // Mostrar el back-button solo en el menú del Usuario
+  useEffect(() => {
+    onToggleBackButton?.(view === "menu");
+    }, [view, onToggleBackButton]);
 
-  const renderModule = () => {
-    switch (activeModule) {
-      case 'dashboard':
-        
-        return <div>Contenido del Dashboard de Usuario</div>;
-      case 'tickets':
-        
-        return <div>Contenido de Tickets de Usuario</div>;
-      case 'detalle':
-        
-        return <div>Contenido del Historial de Tickets de Usuario</div>;
-      case 'informes':
-       
-        return <div>Contenido de Informes de Usuario</div>;
-      default:
-        return <div>Seleccione un módulo</div>;
-    }
-  };
+    // Por seguridad, al desmontar reactivamos el botón
+    useEffect(() => {
+      return () => onToggleBackButton?.(true);
+      }, [onToggleBackButton]);
 
-  return (
-    <div className="app-container">
-      <div className="sidebar">
-        <div className="logo">
-          <p>Panel Usuario</p>
-          <p className="help-desk-text">HelpDesk Pro</p>
-        </div>
-        <nav className="nav-menu">
-          {navItems.map(item => (
-            <button
-              key={item.id}
-              className={`nav-item ${activeModule === item.id ? 'active' : ''}`}
-              onClick={() => setActiveModule(item.id)}
-            >
-              <img src={item.icon} alt={item.label} className="nav-icon" /> 
-              {item.label}
-            </button>
-          ))}
-        </nav>
-      </div>
-      <main className="main-content">
-        {renderModule()}
-      </main>
+  const BackBar = ({ title }) => (
+    <div className="usuario-topbar" style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "12px",
+      padding: "12px 16px",
+    }}>
+      <button
+        onClick={() => setView("menu")}
+        className="back-button back-button--inline"
+        aria-label="Volver al menú"
+      >
+        ← Menú
+      </button>
+      <h2 style={{ margin: 0 }}>{title}</h2>
     </div>
   );
+
+  if (view === "tickets") {
+    return (
+      <div className="usuario-view">
+        <BackBar title="Mis Tickets" />
+        {/* TODO: Conectar con tu lista real de tickets del usuario.
+                 Por ahora un placeholder seguro. */}
+        <div style={{ padding: "16px" }}>
+          <DetalleTicketTecnico />
+        </div>
+      </div>
+    );
+  }
+
+  if (view === "historial") {
+    return (
+      <div className="usuario-view">
+        <BackBar title="Historial de Tickets" />
+        <div style={{ padding: "16px" }}>
+          <TicketTecnico />
+        </div>
+      </div>
+    );
+  }
+
+  if (view === "reportar") {
+    return (
+      <div className="usuario-view">
+        <BackBar title="Reportar Falla" />
+        <div className="rf-wrap">
+          <ReportarFalla
+            onCancelar={() => setView("menu")}
+              onEnviar={(payload) => {
+                // Aquí podrías llamar API; por ahora solo mensaje y volver
+                console.log("Ticket enviado:", payload);
+                alert("Ejemplo: Ticket enviado");
+                setView("menu");
+              }
+            }
+          />
+        </div>          
+      </div>
+    );
+  }
+
+  // Vista MENU (por defecto)
+  return <MenuUsuario onNavigate={setView} />;
 }
 
-export default ModuloUsuario;
+const inputStyle = {
+  width: "100%",
+  marginTop: 6,
+  padding: "10px 12px",
+  borderRadius: 10,
+  border: "1px solid #cbd5e1",
+  outline: "none",
+};
+
+const btnPri = {
+  background: "var(--primary, #0d3b66)",
+  color: "#fff",
+  border: "none",
+  padding: "10px 14px",
+  borderRadius: 10,
+  cursor: "pointer",
+};
+
+const btnSec = {
+  background: "transparent",
+  color: "var(--primary, #0d3b66)",
+  border: "1px solid var(--primary, #0d3b66)",
+  padding: "10px 14px",
+  borderRadius: 10,
+  cursor: "pointer",
+};

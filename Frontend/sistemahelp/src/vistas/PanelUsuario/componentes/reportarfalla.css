@@ -1,0 +1,356 @@
+:root{
+  --brand: var(--primary, #0d3b66);
+  --panel-bg: #e0f7fa;
+  --panel-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  --panel-radius: 18px;
+  --text: #1d2939;
+  --border: #cbd5e1;
+}
+
+.rf-wrap{
+  min-height: calc(100vh - 350px); /* deja aire para el header/backbar */
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.rf-card{
+  width: min(100%, 2080px);     /* antes ~720; ahora más amplio */
+  background: var(--panel-bg); /* #f0f2f5 por tu preferencia */
+  box-shadow: var(--panel-shadow);
+  border-radius: var(--panel-radius);
+  padding: 24px;               /* un poco más de aire */
+  color: var(--text);
+}
+
+.rf-card{
+  background: var(--panel-bg);
+  box-shadow: var(--panel-shadow);
+  border-radius: var(--panel-radius);
+  padding: 16px;
+  color: var(--text);
+}
+
+.rf-title{
+  margin: 0 0 6px 0;
+  color: var(--brand);
+  font-size: 1.25rem;
+}
+
+.rf-hint{
+  margin: 0 0 12px 0;
+  opacity: .85;
+  font-size: .95rem;
+}
+
+.req{ color: #d62; }
+
+.rf-form{
+  display: grid;
+  gap: 12px;
+}
+
+.rf-row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 900px){
+  .rf-row{ grid-template-columns: 1fr; }
+}
+
+.rf-row2{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 900px){
+  .rf-row2{ grid-template-columns: 1fr; }
+}
+
+.rf-field{
+  display: grid;
+  gap: 6px;
+}
+
+/* Título del campo más grande y con peso */
+.rf-field > span,
+.rf-label{
+  font-size: 1.5rem;
+  font-weight: 750;
+  color: var(--text);
+}
+
+.rf-field input,
+.rf-field select,
+.rf-field textarea{
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.rf-field input:focus,
+.rf-field select:focus,
+.rf-field textarea:focus{
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand), transparent 80%);
+}
+
+.rf-counter{
+  text-align: right;
+  font-size: .85rem;
+  opacity: .7;
+}
+
+.rf-file{
+  margin-top: 6px;
+  font-size: .9rem;
+}
+
+.rf-actions{
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.rf-btn{
+  padding: 15px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+.rf-btn:hover{ transform: translateY(-2px); }
+.rf-btn:focus-visible{
+    box-shadow: 0 0 0 8px color-mix(in srgb, #3b6cb1, transparent 75%);
+  border-color: var(--brand);
+}
+
+.rf-btn-pri{
+  background:rgb(51, 221, 60);
+  color: #fff;
+  font-size: larger;
+}
+
+.rf-btn-sec{
+  background:#d33;
+  color:#1d2939;
+  border-color: var(--brand);
+  font-size: large;
+}
+
+/* Grid de categorías: 4 cols desktop, 2 cols tablet, 1 col móvil */
+.rf-catgrid{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  gap: 12px;
+  margin-top: 6px;
+}
+@media (max-width: 1000px){
+  .rf-catgrid{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px){
+  .rf-catgrid{ grid-template-columns: 1fr; }
+}
+
+/* Card de categoría */
+.rf-cat{
+  background: #f8f9fa;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 12px;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 8px;
+  cursor: pointer;
+  outline: none;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.rf-cat:hover{ transform: translateY(-2px); }
+.rf-cat:focus-visible{
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand), transparent 75%);
+  border-color: var(--brand);
+}
+
+/* Icono y texto en la card */
+.rf-cat i{
+  font-size: 35px;
+  color: var(--brand);
+}
+.rf-cat span{
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Estado activo */
+.rf-cat.active{
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand), transparent 80%);
+  background: #f7fbff;
+}
+
+/* Error de validación */
+.rf-error{
+  margin-top: 6px;
+  color: #d33;
+  font-size: .9rem;
+}
+
+/* Etiquetas más grandes (si no lo tenías ya) */
+.rf-field > span,
+.rf-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Envoltorio de etiqueta + ayuda */
+.rf-labelwrap {
+  display: inline-flex;           /* antes: flex */
+  align-items: center;
+  gap: 10px;
+  position: relative;             /* mantiene el posicionamiento del popover */
+  width: auto;                    /* asegura ancho al contenido */
+  max-width: fit-content;
+}
+
+/* Botón de ayuda minimal */
+.rf-help {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: var(--menu-blue, #3b6cb1);
+  color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: background-color .15s ease, color .15s ease;
+}
+
+.rf-help:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.18);
+    filter: brightness(0.95);   /* oscurece ligeramente al pasar el mouse */
+  /*background-color: rgba(13,59,102,0.08);*/ /* tono del brand con transparencia */
+}
+
+.rf-help i {
+  font-size: 32px;            /* icono un poco más grande */
+  color: #fff;                /* asegurar blanco */
+}
+
+.rf-help:active {
+  transform: translateY(0);
+}
+
+.rf-help:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,0.9),
+    0 0 0 6px color-mix(in srgb, var(--menu-blue), transparent 60%);
+}
+
+/* Para posicionar el popover respecto a la etiqueta+ayuda */
+.rf-labelwrap { position: relative; }
+
+/* Popover */
+.rf-popover{
+  position: absolute;
+  top: 46px;           /* debajo del botón de ayuda */
+  left: 0;
+  right: auto;            /* alineado a la derecha del label */
+  z-index: 50;
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--panel-shadow);
+  padding: 12px 14px;
+  width: min(320px, 80vw);
+  font-size: 0.95rem;
+}
+
+/* Flechita */
+.rf-popover::before{
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 18px;
+  border: 8px solid transparent;
+  border-bottom-color: #fff;
+}
+.rf-popover::after{
+  content: "";
+  position: absolute;
+  top: -9px;
+  left: 18px; 
+  border: 9px solid transparent;
+  border-bottom-color: var(--border);
+}
+
+/* Acciones al pie del popover */
+.rf-popover-actions{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.rf-labelwrap { pointer-events: none; }
+.rf-labelwrap .rf-label,
+.rf-labelwrap .rf-help,
+.rf-labelwrap .rf-popover { pointer-events: auto; }
+
+
+/* 1) Todo dentro del panel usa border-box para evitar desbordes */
+.rf-card,
+.rf-card * {
+  box-sizing: border-box;
+}
+
+/* 2) Normaliza inputs/select/textarea para que NUNCA excedan el ancho */
+.rf-field input,
+.rf-field select,
+.rf-field textarea {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box; /* redundante con la regla de arriba, pero explícito */
+}
+
+/* 3) Estiliza el input de archivo para que mida igual que los demás */
+.rf-field input[type="file"] {
+  padding: 10px 12px;           /* mismo padding que el resto */
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+}
+
+/* Botón del input file (navegadores modernos) */
+.rf-field input[type="file"]::file-selector-button {
+  margin-right: 12px;
+  border: none;
+  background: var(--brand);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Compatibilidad WebKit antiguo */
+.rf-field input[type="file"]::-webkit-file-upload-button {
+  margin-right: 12px;
+  border: none;
+  background: var(--brand);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}

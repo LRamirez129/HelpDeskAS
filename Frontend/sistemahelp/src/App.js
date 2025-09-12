@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css'; 
 import 'bootstrap-icons/font/bootstrap-icons.css'; 
 
@@ -9,6 +9,12 @@ import ModuloUsuario from './vistas/PanelUsuario/ModuloUsuario';
 
 function App() {
   const [activePanel, setActivePanel] = useState(null); // Estado para controlar el panel activo
+  const [showBackButton, setShowBackButton] = useState(true);
+
+  // Si NO estamos en 'usuario', mostrar siempre el back-button
+  useEffect(() => {
+    if (activePanel !== 'usuario') setShowBackButton(true);
+    }, [activePanel, setShowBackButton]);
 
   // Función para renderizar el contenido principal
   const renderContent = () => {
@@ -18,7 +24,7 @@ function App() {
       case 'tecnico':
         return <ModuloTecnico />;
       case 'usuario':
-        return <ModuloUsuario />;
+        return <ModuloUsuario onToggleBackButton={setShowBackButton} />;
       default:
         return (
           <div className="button-container">
@@ -38,10 +44,10 @@ function App() {
 
   return (
     <div className="app-container">
-      <header className="app-header">
-        {activePanel && (
+      <header>
+        {activePanel && showBackButton && (
           <button className="back-button" onClick={() => setActivePanel(null)}>
-            ←
+            ◄ Regresar
           </button>
         )}
       </header>

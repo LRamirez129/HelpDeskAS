@@ -1,12 +1,12 @@
 /* Estilos para el encabezado sin título */
-.app-header {
+/*.app-header {
   background-color: #007bff;
   color: white;
   padding: 20px;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: relative; /* Para posicionar el botón de regreso */
-}
+  position: relative; /* Para posicionar el botón de regreso 
+}*/
 
 /* Estilo para el botón de regreso */
 .back-button {
