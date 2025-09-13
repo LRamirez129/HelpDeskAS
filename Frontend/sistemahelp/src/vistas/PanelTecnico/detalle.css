@@ -1,0 +1,251 @@
+
+
+/* -------------------------------------------------------------------------------------------------- */
+/* ---------------------------------- Estilos para Detalle  ------------------------------- */
+/* -------------------------------------------------------------------------------------------------- */
+.detalle-ticket-container {
+    padding: 24px;
+    background-color: #f0f2f5;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.ticket-header-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 24px;
+}
+
+.ticket-info-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.ticket-title-group {
+    display: flex;
+    align-items: center;
+}
+
+.ticket-icon {
+    font-size: 24px;
+    color: #007bff;
+    margin-right: 12px;
+}
+
+.ticket-header-section h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.ticket-meta-tags span {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-left: 8px;
+}
+
+.status-tag.en-proceso { background-color: #ffc107; color: #fff; }
+.priority-tag.alta { background-color: #dc3545; color: #fff; }
+.category-tag.hardware { background-color: #6c757d; color: #fff; }
+
+.ticket-meta-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #666;
+}
+
+.ticket-main-content-grid {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr; /* antes 2fr 1fr → ahora el panel izq ocupa más */
+    gap: 27px;
+    max-width: 1500px; /* controla el ancho máximo */
+    margin: auto;
+}
+
+
+.ticket-details-panel, .ticket-actions-panel {
+    padding: 24px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.ticket-details-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.ticket-details-summary p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.ticket-details-summary p i {
+    color: #007bff;
+    margin-right: 8px;
+}
+
+.ticket-description-box h3 {
+    font-size: 18px;
+    margin: 0 0 10px;
+}
+
+.ticket-description-box p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.ticket-tabs {
+    margin-top: 24px;
+}
+
+.tab-buttons .tab-btn {
+    border: none;
+    background-color: transparent;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s;
+}
+
+.tab-buttons .tab-btn.active {
+    border-bottom-color: #007bff;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.tab-content {
+    padding-top: 20px;
+}
+
+.history-title {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.history-item {
+    border-left: 2px solid #ddd;
+    padding-left: 15px;
+    margin-bottom: 15px;
+}
+
+.history-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 14px;
+    color: #888;
+}
+
+.history-by {
+    font-weight: bold;
+    color: #333;
+}
+
+.history-action {
+    font-style: italic;
+    font-size: 12px;
+}
+
+.history-message {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0 0;
+}
+
+.card-actions, .card-add-comment, .card-contact-info {
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.card-actions h3, .card-add-comment h3, .card-contact-info h3 {
+    font-size: 18px;
+    margin: 0 0 15px;
+}
+
+.status-change-select select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.pause-btn, .resume-btn, .complete-btn, .add-comment-btn, .contact-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.3s;
+}
+
+.pause-btn, .resume-btn {
+    width: 48%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #666;
+}
+
+.pause-btn:hover, .resume-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.complete-btn {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.add-comment-btn {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.contact-btn {
+    background-color: #f8f9fa;
+    color: #007bff;
+    border: 1px solid #007bff;
+    width: 100%;
+}
+
+textarea {
+    width: 100%;
+    min-height: 80px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.detalle-ticket-container i,
+.ticket-details-summary p i,
+.card-actions i,
+.card-add-comment i,
+.card-contact-info i {
+    margin-right: 8px; /* espacio a la derecha */
+    vertical-align: middle; /* alinea bien con el texto */
+}
