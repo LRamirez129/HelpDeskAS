@@ -28,7 +28,7 @@ function App() {
       default:
         return (
           <div className="button-container">
-            <button className="panel-button" onClick={() => setActivePanel('admin')}>
+            <button className="panel-button" onClick={() => {localStorage.setItem('rol', 'ADMIN'); setActivePanel('admin');}}>
               Panel Administrativo
             </button>
             <button className="panel-button" onClick={() => setActivePanel('tecnico')}>
@@ -46,7 +46,7 @@ function App() {
     <div className="app-container">
       <header>
         {activePanel && showBackButton && (
-          <button className="back-button" onClick={() => setActivePanel(null)}>
+          <button className="back-button" onClick={() => {setActivePanel(null);  localStorage.removeItem('rol');}}>
             ◄ Regresar
           </button>
         )}
