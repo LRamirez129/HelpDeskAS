@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&family=Michroma&family=Saira:ital,wght@0,100..900;1,100..900&display=swap');
+
 /* Contenedor principal del módulo */
 .app-container {
   display: flex;
@@ -14,6 +16,7 @@
   box-shadow: 2px 0 10px rgba(241, 237, 237, 0.05);
   display: flex;
   flex-direction: column;
+  flex-shrink: 0; /* Evita que el sidebar se reduzca */
 }
 
 .logo {
@@ -26,7 +29,7 @@
 .logo p {
   font-size: 24px;
   font-weight: bold;
-  color: #333;
+  color: #fff;
   margin-bottom: 0;
 }
 
@@ -52,6 +55,7 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
+  font-family: 'saira', sans-serif;
   font-size: 16px;
   color: #ffffff; /* Texto blanco para ítems no activos */
   border-radius: 8px;

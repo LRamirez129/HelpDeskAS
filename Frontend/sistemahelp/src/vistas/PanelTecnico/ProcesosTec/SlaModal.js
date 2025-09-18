@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../Catalogos/Catalogos.css'; // Usamos el mismo CSS para mantener la consistencia
+import '../../PanelAdmin/ProcesosAdmin/Catalogos/Catalogos.css'; // Usamos el mismo CSS para mantener la consistencia
 import guardarIcon from '../../../Iconos/guardar.png';
 import cancelarIcon from '../../../Iconos/cancelar.png';
 

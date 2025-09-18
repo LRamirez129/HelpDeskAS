@@ -3,8 +3,9 @@ import TecnicoModal from './TecnicoModal';
 import './Catalogos.css';
 
 // Importar iconos (asegúrate de que estas rutas sean correctas)
-import updateIcon from '../../../Iconos/editar.png';
-import deleteIcon from '../../../Iconos/eliminar.png';
+import updateIcon from '../../../../Iconos/editar.png';
+import deleteIcon from '../../../../Iconos/eliminar.png';
+import addIcon from '../../../../Iconos/add.png'
 
 const initialData = [
     { TEC_TECNICO: 1, NOMBRE: 'Carlos García', CORREO: 'carlos.g@email.com', TELEFONO: '555-1234', EXTENSION: '101', ACTIVO: 'S' },
@@ -55,7 +56,7 @@ const TecnicosList = () => {
         <div className="tecnicos-list-container">
             <h3>Catálogo de Técnicos</h3>
             <button onClick={handleCreate} className="btn-create">
-                Añadir Nuevo Técnico
+                <img src={addIcon} alt="Nuevo" className="action-icon-white" />
             </button>
             <table className="data-table">
                 <thead>
@@ -109,6 +110,26 @@ const TecnicosList = () => {
                     onClose={() => setModalOpen(false)}
                 />
             )}
+
+            {/* Catálogo de Técnicos */}
+            <div className="catalog-items-list">
+                <h2>Catálogo de Técnicos</h2>
+                <div className="items-list">
+                {initialData.map((tec) => (
+                    <div key={tec.TEC_TECNICO} className="item-card">
+                    <h4>{tec.NOMBRE}</h4>
+                    <p className="item-meta">
+                        <strong>#{tec.TEC_TECNICO}</strong> | {tec.CORREO} | {tec.TELEFONO}
+                    </p> 
+                    {tec.ACTIVO === 'S' ? 
+                                    <span className="status-dot active"></span> : 
+                                    <span className="status-dot inactive"></span>
+                                }
+                                {tec.ACTIVO === 'S' ? ' Activo' : ' Inactivo'}
+                    </div>
+                ))}
+                </div>
+            </div>
         </div>
     );
 };

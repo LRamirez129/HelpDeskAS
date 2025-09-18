@@ -139,6 +139,13 @@
     transition: transform 0.2s ease;
 }
 
+.action-icon-white {
+    width: 30px;
+    height: 30px;
+    filter: invert(1); /* Hace el ícono blanco */
+    transition: transform 0.2s ease;
+}
+
 .btn-action:hover .action-icon {
     transform: scale(1.1);
 }
@@ -335,4 +342,53 @@
 
 .btn-action-icon:hover {
     transform: scale(1.1);
+}
+
+/* Sección de listado del catálogo */
+.catalog-items-list {
+  margin-top: 20px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.items-list {
+  margin-top: 15px;
+  display: grid;
+  gap: 15px;
+}
+
+.item-card {
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.item-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.item-card h4 {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.item-meta {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+/* Estado de tickets */
+.status-tag {
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-transform: capitalize;
 }

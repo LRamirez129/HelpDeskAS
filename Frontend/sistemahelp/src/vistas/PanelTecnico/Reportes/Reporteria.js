@@ -10,7 +10,7 @@ import ReporteTicketsPorPrioridad from './TicketsPorPrioridad';
 import ReporteSatisfaccion from './Satisfaccion';
 import ReporteTicketsSLA from './TicketsSLA';
 import ReporteActividadDiaria from './ActividadDiaria';
-import './reporteria.css';
+import '../../../estilos/reporteria.css';
 
 // Array de configuración para las tarjetas de reporte con iconos de Bootstrap
 const reportCards = [

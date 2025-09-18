@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import './CatalogosAdmin.css'; // mantiene tus estilos ya definidos
+import '../../../estilos/reporteria.css'; // mantiene tus estilos ya definidos
+
+import TecnicosList from './Catalogos/TecnicosList';
+
+// Importa otros catálogos según sea necesario
 
 // Tarjetas de catálogos (usa clases de Bootstrap Icons)
 const catalogoCards = [
   { id: 'Usuarios',       title: 'Usuarios',                 icon: 'bi-people' },
   { id: 'Tecnicos',       title: 'Técnicos',                 icon: 'bi-person-badge' },
-  { id: 'Departamentos',  title: 'Departamentos',            icon: 'bi-building-fill-add' },
-  { id: 'Departamentos2', title: 'Departamentos2',            icon: 'bi-building-fill-add' },
+  { id: 'Departamentos',  title: 'Departamentos',            icon: 'bi-building-fill-add' },  
   { id: 'Materiales',     title: 'Materiales',               icon: 'bi-hammer' },
   { id: 'Estados',        title: 'Estados',                  icon: 'bi-back' },
   { id: 'KnowledgeBase',  title: 'Base de Conocimientos',    icon: 'bi-database-check' },
-  { id: 'Otra',           title: 'Otra',                     icon: 'bi-8-circle' },
+  { id: 'CargasMasivas',  title: 'Cargas Masivas',           icon: 'bi-upload' },
   { id: 'Otra2',          title: 'Otra',                     icon: 'bi-9-circle' },
 ];
 
@@ -19,14 +22,14 @@ function CatalogosAdmin() {
 
   const renderCatalogos = () => {
     switch (catalogoActual) {
-      case 'Usuarios': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
-      case 'Tecnicos': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
+      case 'Usuarios': return <div>No hay {catalogoActual}</div>;
+      case 'Tecnicos': return <div><TecnicosList /></div>;
       case 'Departamentos': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
       case 'Departamentos2': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
       case 'Materiales': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
       case 'Estados': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
       case 'KnowledgeBase': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
-      case 'Otra': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
+      case 'CargasMasivas': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
       case 'Otra2': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
 
       default:

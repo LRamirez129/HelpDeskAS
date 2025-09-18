@@ -35,7 +35,7 @@ function ModuloAdmin() {
   ];
 
   const navItems = esAdministrador
-    ? [...navBase, { id: 'administrador', label: 'Administrador', icon: adminIcon }]
+    ? [{ id: 'administrador', label: 'Administrador', icon: adminIcon }, ...navBase]
     : navBase;
 
   const renderModule = () => {

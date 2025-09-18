@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Catalogos.css';
-import guardarIcon from '../../../Iconos/guardar.png';
-import cancelarIcon from '../../../Iconos/cancelar.png';
+import guardarIcon from '../../../../Iconos/guardar.png';
+import cancelarIcon from '../../../../Iconos/cancelar.png';
 
 const TecnicoModal = ({ tecnico, onSave, onClose }) => {
     const [formData, setFormData] = useState({
