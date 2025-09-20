@@ -103,6 +103,8 @@
     background-color: #fdfdfd;
 }
 
+
+/* Estado de items*/
 .status-dot {
     height: 10px;
     width: 10px;
@@ -118,6 +120,30 @@
 .status-dot.inactive {
     background-color: red;
 }
+
+.status-tag {
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-transform: capitalize;
+}
+
+.status-tag.inactive {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.status-tag.en-proceso {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-tag.active {
+  background: #d4edda;
+  color: #155724;
+}
+
 
 /* Estilos de los iconos de acción y tooltips */
 .action-buttons-container {
@@ -365,6 +391,12 @@
   border: 1px solid #ddd;
   background: #fafafa;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display:flex;
+}
+
+.item-card > div, .catalog-header > div {
+  margin: 10px;
+  padding: 20px;
 }
 
 .item-card:hover {
@@ -381,7 +413,8 @@
 .item-meta {
   font-size: 12px;
   color: #555;
-  margin-bottom: 6px;
+  display: block;
+  padding-top: 10px;
 }
 
 /* Estado de tickets */
@@ -391,4 +424,21 @@
   padding: 4px 8px;
   border-radius: 6px;
   text-transform: capitalize;
+}
+
+.item-title {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.catalog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.catalog-header button{
+    display: inline;
+    margin-left: auto;
 }

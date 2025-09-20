@@ -7,6 +7,7 @@ import updateIcon from '../../../../Iconos/editar.png';
 import deleteIcon from '../../../../Iconos/eliminar.png';
 import addIcon from '../../../../Iconos/add.png'
 
+
 const initialData = [
     { TEC_TECNICO: 1, NOMBRE: 'Carlos García', CORREO: 'carlos.g@email.com', TELEFONO: '555-1234', EXTENSION: '101', ACTIVO: 'S' },
     { TEC_TECNICO: 2, NOMBRE: 'Ana López', CORREO: 'ana.l@email.com', TELEFONO: '555-5678', EXTENSION: '102', ACTIVO: 'S' },
@@ -54,55 +55,43 @@ const TecnicosList = () => {
 
     return (
         <div className="tecnicos-list-container">
-            <h3>Catálogo de Técnicos</h3>
-            <button onClick={handleCreate} className="btn-create">
-                <img src={addIcon} alt="Nuevo" className="action-icon-white" />
-            </button>
-            <table className="data-table">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Correo</th>
-                        <th>Teléfono</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {tecnicos.map((tec) => (
-                        <tr key={tec.TEC_TECNICO}>
-                            <td>{tec.NOMBRE}</td>
-                            <td>{tec.CORREO}</td>
-                            <td>{tec.TELEFONO}</td>
-                            <td>
-                                {tec.ACTIVO === 'S' ? 
-                                    <span className="status-dot active"></span> : 
-                                    <span className="status-dot inactive"></span>
-                                }
-                                {tec.ACTIVO === 'S' ? ' Activo' : ' Inactivo'}
-                            </td>
-                            <td>
-                                <div className="action-buttons-container">
-                                    <button 
-                                        onClick={() => handleEdit(tec)} 
-                                        className="btn-action edit"
-                                        data-tooltip="Actualizar"
-                                    >
-                                        <img src={updateIcon} alt="Editar" className="action-icon" />
-                                    </button>
-                                    <button 
-                                        onClick={() => handleDelete(tec.TEC_TECNICO)} 
-                                        className="btn-action delete"
-                                        data-tooltip="Eliminar"
-                                    >
-                                        <img src={deleteIcon} alt="Eliminar" className="action-icon" />
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            {/* Catálogo de Técnicos */}
+            <div className="catalog-items-list">
+                <div className="catalog-header">
+                    <div><h3>Catálogo de Técnicos</h3></div>
+                    <div style={{marginLeft: 'auto'}}>
+                    <button onClick={handleCreate} className="btn-create">
+                        <img src={addIcon} alt="Nuevo" className="action-icon-white" />
+                    </button>
+                    </div>
+                </div>
+                <div className="items-list">
+                {initialData.map((tec) => (
+                    <div key={tec.TEC_TECNICO} className="item-card">
+                        <div>
+                            <span class="item-title">{tec.NOMBRE}</span>&nbsp;&nbsp;
+                            <span className={`status-tag ${tec.ACTIVO==='S'?"active":"inactive"}`}>{tec.ACTIVO === 'S' ? 
+                                            <span className="status-dot active"></span> : 
+                                            <span className="status-dot inactive"></span>
+                                        }
+                                        {tec.ACTIVO === 'S' ? ' Activo' : ' Inactivo'}</span><br />
+                            <span className="item-meta">
+                                <strong>ID {tec.TEC_TECNICO}</strong> | {tec.CORREO} | {tec.TELEFONO}
+                            </span>
+                        </div>
+                        <div style={{marginLeft: 'auto', alignSelf: 'center'}}>
+                            <button className="action-button abrir-button" onClick={() => handleEdit(tec)} data-tooltip="Detalle">
+                                <center><img src={updateIcon} alt="Abrir" /></center>
+                            </button> &nbsp;
+                            <button className="action-button sla-button" onClick={() => handleDelete(tec.TEC_TECNICO)} data-tooltip="SLA">
+                                <center><img src={deleteIcon} alt="SLA" /></center>
+                            </button>
+                        </div>
+                    </div>
+                ))}
+                </div>
+            </div>
+            {/* Modal para crear/editar técnicos */}    
             {modalOpen && (
                 <TecnicoModal
                     tecnico={currentTecnico}
@@ -110,26 +99,6 @@ const TecnicosList = () => {
                     onClose={() => setModalOpen(false)}
                 />
             )}
-
-            {/* Catálogo de Técnicos */}
-            <div className="catalog-items-list">
-                <h2>Catálogo de Técnicos</h2>
-                <div className="items-list">
-                {initialData.map((tec) => (
-                    <div key={tec.TEC_TECNICO} className="item-card">
-                    <h4>{tec.NOMBRE}</h4>
-                    <p className="item-meta">
-                        <strong>#{tec.TEC_TECNICO}</strong> | {tec.CORREO} | {tec.TELEFONO}
-                    </p> 
-                    {tec.ACTIVO === 'S' ? 
-                                    <span className="status-dot active"></span> : 
-                                    <span className="status-dot inactive"></span>
-                                }
-                                {tec.ACTIVO === 'S' ? ' Activo' : ' Inactivo'}
-                    </div>
-                ))}
-                </div>
-            </div>
         </div>
     );
 };
