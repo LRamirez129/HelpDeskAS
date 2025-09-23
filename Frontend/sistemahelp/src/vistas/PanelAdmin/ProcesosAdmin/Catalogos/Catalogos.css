@@ -52,14 +52,14 @@
 }
 
 /* --- Estilos compartidos para la vista de lista --- */
-.tecnicos-list-container {
+.catalogos-list-container {
     background-color: var(--white);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-.tecnicos-list-container h3 {
+.catalogos-list-container > .catalog-items-list > .catalog-header > div > h3 {
     font-size: 24px;
     color: var(--royal-blue); /* Ajustado a royal blue */
     margin-bottom: 20px;

@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import '../../../estilos/reporteria.css'; // mantiene tus estilos ya definidos
 
 import TecnicosList from './Catalogos/TecnicosList';
+import DepartamentosList from './Catalogos/DepartamentosList';
+import RepuestosList from './Catalogos/RepuestosList';
+import EstadosList from './Catalogos/EstadosList';
+import UsuariosList from './Catalogos/UsuariosList';
 
 // Importa otros catálogos según sea necesario
 
@@ -10,7 +14,7 @@ const catalogoCards = [
   { id: 'Usuarios',       title: 'Usuarios',                 icon: 'bi-people' },
   { id: 'Tecnicos',       title: 'Técnicos',                 icon: 'bi-person-badge' },
   { id: 'Departamentos',  title: 'Departamentos',            icon: 'bi-building-fill-add' },  
-  { id: 'Materiales',     title: 'Materiales',               icon: 'bi-hammer' },
+  { id: 'Repuestos',      title: 'Repuestos',                icon: 'bi-hammer' },
   { id: 'Estados',        title: 'Estados',                  icon: 'bi-back' },
   { id: 'KnowledgeBase',  title: 'Base de Conocimientos',    icon: 'bi-database-check' },
   { id: 'CargasMasivas',  title: 'Cargas Masivas',           icon: 'bi-upload' },
@@ -22,12 +26,12 @@ function CatalogosAdmin() {
 
   const renderCatalogos = () => {
     switch (catalogoActual) {
-      case 'Usuarios': return <div>No hay {catalogoActual}</div>;
+      case 'Usuarios': return <div><UsuariosList /></div>;
       case 'Tecnicos': return <div><TecnicosList /></div>;
-      case 'Departamentos': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
+      case 'Departamentos': return <div><DepartamentosList /></div>;
       case 'Departamentos2': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
-      case 'Materiales': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
-      case 'Estados': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
+      case 'Repuestos': return <div><RepuestosList /></div>;
+      case 'Estados': return <div><EstadosList /></div>;
       case 'KnowledgeBase': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
       case 'CargasMasivas': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
       case 'Otra2': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;

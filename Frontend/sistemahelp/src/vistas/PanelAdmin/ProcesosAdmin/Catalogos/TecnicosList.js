@@ -54,7 +54,7 @@ const TecnicosList = () => {
     };
 
     return (
-        <div className="tecnicos-list-container">
+        <div className="catalogos-list-container">
             {/* Catálogo de Técnicos */}
             <div className="catalog-items-list">
                 <div className="catalog-header">
