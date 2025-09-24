@@ -155,3 +155,25 @@
 }
 
 .sla-button:hover { background-color: #95a5a6; }
+
+/* Estilos para el nuevo panel de tickets asignados */
+.assigned-tickets-panel {
+  background-color: var(--white); /* Fondo blanco */
+  padding: 25px 30px; /* Espaciado interno */
+  border-radius: 12px; /* Bordes redondeados */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Sombra sutil */
+  margin-bottom: 30px; /* Margen inferior para separarlo de otros elementos */
+  text-align: left; /* Alinea el texto a la izquierda */
+}
+
+.assigned-tickets-panel h1 {
+  font-size: 28px;
+  margin: 0;
+  color: var(--royal-blue); /* Color del título */
+}
+
+.assigned-tickets-panel p {
+  font-size: 14px;
+  color: var(--medium-grey); /* Color de la descripción */
+  font-weight: 500;
+}

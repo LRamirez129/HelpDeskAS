@@ -23,9 +23,10 @@ const TicketPestana = ({ setActiveModule }) => {
 
     return (
         <div className="ticket-list-container">
-            <header className="ticket-list-header">
-                <h2>Tickets Asignados</h2>
-            </header>
+            <div class="tickets-header">
+            <h1>Tickets Asignados</h1>
+            <p>Gestiona todos los tickets que se te han asignado.</p>
+            </div>
             <div className="ticket-cards-grid">
                 {ticketsDeEjemplo.map(ticket => (
                     <div key={ticket.id} className="ticket-card">
