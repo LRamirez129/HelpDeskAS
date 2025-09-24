@@ -5,8 +5,8 @@ import './Catalogos.css';
 // Importar iconos (asegúrate de que estas rutas sean correctas)
 import updateIcon from '../../../../Iconos/editar.png';
 import deleteIcon from '../../../../Iconos/eliminar.png';
-import addIcon from '../../../../Iconos/add.png'
-
+import addIcon from '../../../../Iconos/add.png';
+import searchIcon from '../../../../Iconos/buscar.png'; // Asegúrate de tener este icono
 
 const initialData = [
     { USR_USUARIO: 1, NOMBRE: 'Carlos García', CORREO: 'carlos.g@email.com', TELEFONO: '555-1234', EXTENSION: '1001', ACTIVO: 'S', PASSWORD: '', ROL: 'USER', DEPARTAMENTO: '2' },
@@ -18,8 +18,23 @@ const initialData = [
 
 const UsuariosList = () => {
     const [usuarios, setUsuarios] = useState(initialData);
+    const [filteredUsuarios, setFilteredUsuarios] = useState(initialData);
+    const [searchTerm, setSearchTerm] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
     const [currentUsuario, setCurrentUsuario] = useState(null);
+
+    // Función para manejar la búsqueda en tiempo real
+    const handleSearch = (term) => {
+        setSearchTerm(term);
+        if (term === '') {
+            setFilteredUsuarios(usuarios);
+        } else {
+            const filtered = usuarios.filter(usuario =>
+                usuario.NOMBRE.toLowerCase().includes(term.toLowerCase())
+            );
+            setFilteredUsuarios(filtered);
+        }
+    };
 
     const handleCreate = () => {
         setCurrentUsuario(null);
@@ -33,14 +48,36 @@ const UsuariosList = () => {
 
     const handleSave = (savedUsuario) => {
         if (savedUsuario.USR_USUARIO) {
-            setUsuarios(usuarios.map(usr =>
+            const updatedUsuarios = usuarios.map(usr =>
                 usr.USR_USUARIO === savedUsuario.USR_USUARIO ? savedUsuario : usr
-            ));
+            );
+            setUsuarios(updatedUsuarios);
+            
+            // Actualizar también la lista filtrada
+            if (searchTerm) {
+                const filtered = updatedUsuarios.filter(usuario =>
+                    usuario.NOMBRE.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                setFilteredUsuarios(filtered);
+            } else {
+                setFilteredUsuarios(updatedUsuarios);
+            }
             alert('Usuario actualizado con éxito.');
         } else {
             const newId = Math.max(...usuarios.map(usr => usr.USR_USUARIO)) + 1;
             const newUsuario = { ...savedUsuario, USR_USUARIO: newId };
-            setUsuarios([...usuarios, newUsuario]);
+            const updatedUsuarios = [...usuarios, newUsuario];
+            setUsuarios(updatedUsuarios);
+            
+            // Actualizar también la lista filtrada
+            if (searchTerm) {
+                const filtered = updatedUsuarios.filter(usuario =>
+                    usuario.NOMBRE.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                setFilteredUsuarios(filtered);
+            } else {
+                setFilteredUsuarios(updatedUsuarios);
+            }
             alert('Usuario agregado con éxito.');
         }
         setModalOpen(false);
@@ -48,7 +85,18 @@ const UsuariosList = () => {
 
     const handleDelete = (id) => {
         if (window.confirm('¿Estás seguro de que quieres eliminar este técnico?')) {
-            setUsuarios(usuarios.filter(usr => usr.USR_USUARIO !== id));
+            const updatedUsuarios = usuarios.filter(usr => usr.USR_USUARIO !== id);
+            setUsuarios(updatedUsuarios);
+            
+            // Actualizar también la lista filtrada
+            if (searchTerm) {
+                const filtered = updatedUsuarios.filter(usuario =>
+                    usuario.NOMBRE.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                setFilteredUsuarios(filtered);
+            } else {
+                setFilteredUsuarios(updatedUsuarios);
+            }
             alert('Usuario eliminado con éxito.');
         }
     };
@@ -59,37 +107,54 @@ const UsuariosList = () => {
             <div className="catalog-items-list">
                 <div className="catalog-header">
                     <div><h3>Catálogo de Usuarios</h3></div>
-                    <div style={{marginLeft: 'auto'}}>
-                    <button onClick={handleCreate} className="btn-create">
-                        <img src={addIcon} alt="Nuevo" className="action-icon-white" />
-                    </button>
+                    <div style={{marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '10px'}}>
+                        {/* Campo de búsqueda */}
+                        <div className="search-container">
+                            <img src={searchIcon} alt="Buscar" className="search-icon" />
+                            <input
+                                type="text"
+                                placeholder="Buscar por nombre..."
+                                value={searchTerm}
+                                onChange={(e) => handleSearch(e.target.value)}
+                                className="search-input"
+                            />
+                        </div>
+                        <button onClick={handleCreate} className="btn-create">
+                            <img src={addIcon} alt="Nuevo" className="action-icon-white" />
+                        </button>
                     </div>
                 </div>
                 <div className="items-list">
-                {initialData.map((usr) => (
-                    <div key={usr.USR_USUARIO} className="item-card">
-                        <div>
-                            <span class="item-title">{usr.NOMBRE}</span>&nbsp;&nbsp;
-                            <span className={`status-tag ${usr.ACTIVO==='S'?"active":"inactive"}`}>{usr.ACTIVO === 'S' ? 
-                                            <span className="status-dot active"></span> : 
-                                            <span className="status-dot inactive"></span>
-                                        }
-                                        {usr.ACTIVO === 'S' ? ' Activo' : ' Inactivo'}</span><br />
-                            <span className="item-meta">
-                                <strong>ID {usr.USR_USUARIO}</strong> | {usr.CORREO} | {usr.TELEFONO} <br />
-
-                            </span>
+                    {filteredUsuarios.map((usr) => (
+                        <div key={usr.USR_USUARIO} className="item-card">
+                            <div>
+                                <span className="item-title">{usr.NOMBRE}</span>&nbsp;&nbsp;
+                                <span className={`status-tag ${usr.ACTIVO==='S'?"active":"inactive"}`}>
+                                    {usr.ACTIVO === 'S' ? 
+                                        <span className="status-dot active"></span> : 
+                                        <span className="status-dot inactive"></span>
+                                    }
+                                    {usr.ACTIVO === 'S' ? ' Activo' : ' Inactivo'}
+                                </span><br />
+                                <span className="item-meta">
+                                    <strong>ID {usr.USR_USUARIO}</strong> | {usr.CORREO} | {usr.TELEFONO} <br />
+                                </span>
+                            </div>
+                            <div style={{marginLeft: 'auto', alignSelf: 'center'}}>
+                                <button className="action-button abrir-button" onClick={() => handleEdit(usr)} data-tooltip="Detalle">
+                                    <center><img src={updateIcon} alt="Abrir" /></center>
+                                </button> &nbsp;
+                                <button className="action-button sla-button" onClick={() => handleDelete(usr.USR_USUARIO)} data-tooltip="SLA">
+                                    <center><img src={deleteIcon} alt="SLA" /></center>
+                                </button>
+                            </div>
                         </div>
-                        <div style={{marginLeft: 'auto', alignSelf: 'center'}}>
-                            <button className="action-button abrir-button" onClick={() => handleEdit(usr)} data-tooltip="Detalle">
-                                <center><img src={updateIcon} alt="Abrir" /></center>
-                            </button> &nbsp;
-                            <button className="action-button sla-button" onClick={() => handleDelete(usr.USR_USUARIO)} data-tooltip="SLA">
-                                <center><img src={deleteIcon} alt="SLA" /></center>
-                            </button>
+                    ))}
+                    {filteredUsuarios.length === 0 && (
+                        <div className="no-results">
+                            No se encontraron usuarios que coincidan con la búsqueda.
                         </div>
-                    </div>
-                ))}
+                    )}
                 </div>
             </div>
             {/* Modal para crear/editar técnicos */}    
