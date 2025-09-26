@@ -9,6 +9,7 @@ const TecnicoModal = ({ tecnico, onSave, onClose }) => {
         correo: '',
         telefono: '',
         extension: '',
+        equipo: '',
         activo: 'S'
     });
 
@@ -19,6 +20,7 @@ const TecnicoModal = ({ tecnico, onSave, onClose }) => {
                 correo: tecnico.CORREO,
                 telefono: tecnico.TELEFONO,
                 extension: tecnico.EXTENSION,
+                equipo: tecnico.EQUIPO,
                 activo: tecnico.ACTIVO
             });
         } else {
@@ -27,6 +29,7 @@ const TecnicoModal = ({ tecnico, onSave, onClose }) => {
                 correo: '',
                 telefono: '',
                 extension: '',
+                equipo: '',
                 activo: 'S'
             });
         }
@@ -66,37 +69,46 @@ const TecnicoModal = ({ tecnico, onSave, onClose }) => {
                         </div>
                         <div className="form-group">
                             <label>Extensión</label>
-                            <select name="extension" value={formData.extension} onChange={handleChange}>
+                            <input type="text" name="extension" value={formData.extension} onChange={handleChange} />
+                        </div>
+                    </div>
+                    <div className='form-row'>
+                        <div className='form-group'>
+                            <label>Equipo resolutor</label>
+                            <select name="Equipo" value={formData.equipo} onChange={handleChange}>
                                 <option value="">-- Seleccionar --</option>
-                                <option value="1001">1001</option>
-                                <option value="1002">1002</option>
+                                <option value="1">Help Desk</option>
+                                <option value="2">Hardware</option>
+                                <option value="3">Sistemas</option>
+                                <option value="4">Bases de Datos</option>
+                                <option value="5">Redes e infraestructura</option>
                                 {/* Agrega más opciones aquí si es necesario */}
                             </select>
                         </div>
-                    </div>
-                    <div className="form-group radio-group">
-                        <label>Estado</label>
-                        <div className="radio-options">
-                            <label className="radio-label">
-                                <input
-                                    type="radio"
-                                    name="activo"
-                                    value="S"
-                                    checked={formData.activo === 'S'}
-                                    onChange={handleChange}
-                                />
-                                Activo
-                            </label>
-                            <label className="radio-label">
-                                <input
-                                    type="radio"
-                                    name="activo"
-                                    value="N"
-                                    checked={formData.activo === 'N'}
-                                    onChange={handleChange}
-                                />
-                                Inactivo
-                            </label>
+                        <div className="form-group radio-group">
+                            <label>Estado</label>
+                            <div className="radio-options">
+                                <label className="radio-label">
+                                    <input
+                                        type="radio"
+                                        name="activo"
+                                        value="S"
+                                        checked={formData.activo === 'S'}
+                                        onChange={handleChange}
+                                    />
+                                    Activo
+                                </label>
+                                <label className="radio-label">
+                                    <input
+                                        type="radio"
+                                        name="activo"
+                                        value="N"
+                                        checked={formData.activo === 'N'}
+                                        onChange={handleChange}
+                                    />
+                                    Inactivo
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div className="form-buttons-icons">

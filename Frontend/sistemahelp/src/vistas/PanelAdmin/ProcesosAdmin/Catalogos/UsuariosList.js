@@ -24,13 +24,13 @@ const UsuariosList = () => {
     const [currentUsuario, setCurrentUsuario] = useState(null);
 
     // Función para manejar la búsqueda en tiempo real
-    const handleSearch = (term) => {
+    const handleSearch = (data, term) => {
         setSearchTerm(term);
         if (term === '') {
-            setFilteredUsuarios(usuarios);
+            setFilteredUsuarios(data);
         } else {
-            const filtered = usuarios.filter(usuario =>
-                usuario.NOMBRE.toLowerCase().includes(term.toLowerCase())
+            const filtered = data.filter(d =>
+                d.NOMBRE.toLowerCase().includes(term.toLowerCase())
             );
             setFilteredUsuarios(filtered);
         }
@@ -115,7 +115,7 @@ const UsuariosList = () => {
                                 type="text"
                                 placeholder="Buscar por nombre..."
                                 value={searchTerm}
-                                onChange={(e) => handleSearch(e.target.value)}
+                                onChange={(e) => handleSearch(usuarios, e.target.value)}
                                 className="search-input"
                             />
                         </div>

@@ -9,11 +9,11 @@ import addIcon from '../../../../Iconos/add.png'
 
 
 const initialData = [
-    { TEC_TECNICO: 1, NOMBRE: 'Carlos García', CORREO: 'carlos.g@email.com', TELEFONO: '555-1234', EXTENSION: '101', ACTIVO: 'S' },
-    { TEC_TECNICO: 2, NOMBRE: 'Ana López', CORREO: 'ana.l@email.com', TELEFONO: '555-5678', EXTENSION: '102', ACTIVO: 'S' },
-    { TEC_TECNICO: 3, NOMBRE: 'Luis Pérez', CORREO: 'luis.p@email.com', TELEFONO: '555-9012', EXTENSION: '103', ACTIVO: 'N' },
-    { TEC_TECNICO: 4, NOMBRE: 'Marta Diaz', CORREO: 'marta.d@email.com', TELEFONO: '555-1122', EXTENSION: '104', ACTIVO: 'S' },
-    { TEC_TECNICO: 5, NOMBRE: 'Juan Ramos', CORREO: 'juan.r@email.com', TELEFONO: '555-3344', EXTENSION: '105', ACTIVO: 'S' },
+    { TEC_TECNICO: 1, NOMBRE: 'Carlos García', CORREO: 'carlos.g@email.com', TELEFONO: '555-1234', EXTENSION: '1001', EQUIPO: '1', ACTIVO: 'S' },
+    { TEC_TECNICO: 2, NOMBRE: 'Ana López', CORREO: 'ana.l@email.com', TELEFONO: '555-5678', EXTENSION: '1002', EQUIPO: '2', ACTIVO: 'S' },
+    { TEC_TECNICO: 3, NOMBRE: 'Luis Pérez', CORREO: 'luis.p@email.com', TELEFONO: '555-9012', EXTENSION: '1003', EQUIPO: '3', ACTIVO: 'N' },
+    { TEC_TECNICO: 4, NOMBRE: 'Marta Diaz', CORREO: 'marta.d@email.com', TELEFONO: '555-1122', EXTENSION: '1004', EQUIPO: '4', ACTIVO: 'S' },
+    { TEC_TECNICO: 5, NOMBRE: 'Juan Ramos', CORREO: 'juan.r@email.com', TELEFONO: '555-3344', EXTENSION: '1005', EQUIPO: '5', ACTIVO: 'S' },
 ];
 
 const TecnicosList = () => {
