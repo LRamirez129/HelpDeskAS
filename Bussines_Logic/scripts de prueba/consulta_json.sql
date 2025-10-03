@@ -19,19 +19,8 @@ DECLARE
     -- Variable para almacenar el JSON
     V_JSON_OBJECT_ARRAY VARCHAR2(1000);    
     -- Variables para almacenar los datos extraídos
-    v_nombre NVARCHAR2(50);
-    v_ciudad NVARCHAR2(50);
-    v_edad NUMBER;
-    -- Cursor para consultar el JSON utilizando JSON_TABLE
-    CURSOR JSONQUERY IS
-    SELECT jt.name, jt.age, jt.city
-    FROM json_table(V_JSON_OBJECT_ARRAY, '$[*]'
-        COLUMNS (
-            name NVARCHAR2(50) PATH '$.name',
-            age NUMBER PATH '$.age',
-            city NVARCHAR2(50) PATH '$.city'
-        )
-    ) jt;
+    V_REGISTRO T_PERSONA_OBJECT;
+    V_TEMP_PERSONA T_PERSONA_TABLE;      
 
 BEGIN
     -- Asignación del JSON a la variable
@@ -48,15 +37,28 @@ BEGIN
         }]';
 
     -- Consulta del JSON y salida de los datos
-    OPEN JSONQUERY;
-    LOOP
-        FETCH JSONQUERY INTO v_nombre, v_edad, v_ciudad;
-        EXIT WHEN JSONQUERY%NOTFOUND;
+
+    SELECT jt.name, jt.age, jt.city
+    BULK COLLECT INTO V_TEMP_PERSONA
+    FROM json_table(V_JSON_OBJECT_ARRAY, '$[*]'
+        COLUMNS (
+            name NVARCHAR2(50) PATH '$.name',
+            age NUMBER PATH '$.age',
+            city NVARCHAR2(50) PATH '$.city'
+        )
+    ) jt;
+
+    IF V_TEMP_PERSONA.COUNT = 0 THEN
+        DBMS_OUTPUT.PUT_LINE('No se han encontrado registros.');
+        RETURN;
+    END IF;
+    
+    FOR i IN V_TEMP_PERSONA.FIRST .. V_TEMP_PERSONA.LAST LOOP
+        V_REGISTRO := V_TEMP_PERSONA(i);
         DBMS_OUTPUT.PUT_LINE('');
-        DBMS_OUTPUT.PUT_LINE('Nombre: ' || v_nombre);
-        DBMS_OUTPUT.PUT_LINE('Edad: ' || v_edad);
-        DBMS_OUTPUT.PUT_LINE('Ciudad: ' || v_ciudad);
-        
-    END LOOP;
-    CLOSE JSONQUERY;
+        DBMS_OUTPUT.PUT_LINE('Registro ' || i || ':');
+        DBMS_OUTPUT.PUT_LINE('Nombre: ' || V_REGISTRO.name);
+        DBMS_OUTPUT.PUT_LINE('Edad: ' || V_REGISTRO.age);
+        DBMS_OUTPUT.PUT_LINE('Ciudad: ' || V_REGISTRO.city);
+    END LOOP;    
 END;
