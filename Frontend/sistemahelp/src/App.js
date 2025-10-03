@@ -34,7 +34,10 @@ function App() {
             <button className="panel-button" onClick={() => setActivePanel('tecnico')}>
               Panel Técnico
             </button>
-            <button className="panel-button" onClick={() => setActivePanel('usuario')}>
+            <button className="panel-button" onClick={() => {
+              localStorage.setItem('usuarioId', 'u1');
+              localStorage.setItem('correo', 'ana@empresa.com');
+              setActivePanel('usuario')}}>
               Panel Usuario
             </button>
           </div>

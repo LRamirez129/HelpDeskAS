@@ -1,11 +1,14 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import "./reportarfalla.css";
 
+import informIcon from "../../../Iconos/inform.png";
+import cancelarIcon from "../../../Iconos/cancelar.png";
+
 /**
- * Formulario para Reportar Falla
+ * Formulario para Reportar Falla (acciones como iconos, mismo trazo que el modal)
  * Props:
- *  - onCancelar(): vuelve al menú
- *  - onEnviar(payload): envía datos (por ahora solo llama y limpia)
+ *  - onCancelar(): vuelve al menú (opcional)
+ *  - onEnviar(payload): envía datos (opcional)
  */
 export default function ReportarFalla({ onCancelar, onEnviar }) {
   const [titulo, setTitulo] = useState("");
@@ -15,8 +18,8 @@ export default function ReportarFalla({ onCancelar, onEnviar }) {
   const [descripcion, setDescripcion] = useState("");
   const [archivo, setArchivo] = useState(null);
   const [showCatError, setShowCatError] = useState(false);
-  const [openHelp, setOpenHelp] = useState(null); // 'categoria' | 'subcategoria' | 'prioridad' | null
-  const catRef = useRef(null);
+  const [openHelp, setOpenHelp] = useState(null); // 'subcategoria' | 'prioridad' | null
+
   const subRef = useRef(null);
   const priRef = useRef(null);
 
@@ -39,7 +42,6 @@ export default function ReportarFalla({ onCancelar, onEnviar }) {
     setArchivo(f);
   }
 
-  // ⬇️ MOVER AQUÍ (fuera de enviar) — handler para seleccionar tarjeta con teclado
   function handleCardKey(e, id) {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -76,19 +78,18 @@ export default function ReportarFalla({ onCancelar, onEnviar }) {
   }
 
   useEffect(() => {
-  function onKey(e){ if (e.key === "Escape") setOpenHelp(null); }
-  function onClick(e){
-    const insideCat = catRef.current?.contains(e.target);
-    const insideSub = subRef.current?.contains(e.target);
-    const insidePri = priRef.current?.contains(e.target);
-    if (!insideCat && !insideSub && !insidePri) setOpenHelp(null);
-  }
-  document.addEventListener("keydown", onKey);
-  document.addEventListener("mousedown", onClick);
-  return () => {
-    document.removeEventListener("keydown", onKey);
-    document.removeEventListener("mousedown", onClick);
-  };
+    function onKey(e) { if (e.key === "Escape") setOpenHelp(null); }
+    function onClick(e) {
+      const insideSub = subRef.current?.contains(e.target);
+      const insidePri = priRef.current?.contains(e.target);
+      if (!insideSub && !insidePri) setOpenHelp(null);
+    }
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onClick);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onClick);
+    };
   }, []);
 
   return (
@@ -147,91 +148,106 @@ export default function ReportarFalla({ onCancelar, onEnviar }) {
           {showCatError && <div className="rf-error">Selecciona una categoría.</div>}
         </div>
 
-        {/* SUBCATEGORÍA (fila propia) */}
+        {/* SUBCATEGORÍA */}
         <div className="rf-row">
-        <div className="rf-field">
+          <div className="rf-field">
             <div className="rf-labelwrap" ref={subRef}>
-                <label htmlFor="rf-subcategoria" className="rf-label">Subcategoría</label>
-                <button
-                    type="button"
-                    className="rf-help"
-                    aria-label="Ayuda sobre subcategoría"
-                    aria-expanded={openHelp==='subcategoria'}
-                    onClick={() => setOpenHelp(openHelp==='subcategoria' ? null : 'subcategoria')}
-                    title="Refina el tipo de problema dentro de la categoría elegida."
-                >
+              <label htmlFor="rf-subcategoria" className="rf-label">Subcategoría</label>
+              <button
+                type="button"
+                className="rf-help"
+                aria-label="Ayuda sobre subcategoría"
+                aria-expanded={openHelp==='subcategoria'}
+                onClick={() => setOpenHelp(openHelp==='subcategoria' ? null : 'subcategoria')}
+                title="Refina el tipo de problema dentro de la categoría elegida."
+              >
                 <i className="bi bi-question-circle" aria-hidden="true"></i>
-                </button>
-                
-                {openHelp==='subcategoria' && (
-                    <div className="rf-popover" role="dialog" aria-label="Ayuda: subcategoría">
-                        <p>Refina el problema dentro de la categoría elegida. Ej.: Hardware → <em>Impresora</em> o <em>Laptop</em>.</p>
-                        <div className="rf-popover-actions">
-                            <button type="button" className="rf-btn rf-btn-pri" onMouseDown={(e) => {e.preventDefault();e.stopPropagation();setOpenHelp(null);}} onClick={(e) => {e.preventDefault(); setOpenHelp(null);}}>Entendido</button>
-                        </div>
-                    </div>
-                )}
-                </div>
+              </button>
 
-                <select
-                    id="rf-subcategoria"
-                    value={subcategoria}
-                    onChange={(e) => setSubcategoria(e.target.value)}
-                    disabled={!subcategoriasDisponibles.length}
-                >
-                <option value="">
-                    {subcategoriasDisponibles.length ? "Selecciona una subcategoría" : "No disponible"}
-                </option>
-                {subcategoriasDisponibles.map((s) => (
-                <option key={s} value={s}>{s}</option>
-                ))}
-                </select>
+              {openHelp==='subcategoria' && (
+                <div className="rf-popover" role="dialog" aria-label="Ayuda: subcategoría">
+                  <p>Refina el problema dentro de la categoría elegida. Ej.: Hardware → <em>Impresora</em> o <em>Laptop</em>.</p>
+                  <div className="rf-popover-actions">
+                    <button
+                      type="button"
+                      className="rf-btn rf-btn-pri"
+                      onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); setOpenHelp(null); }}
+                      onClick={(e) => { e.preventDefault(); setOpenHelp(null); }}
+                    >
+                      Entendido
+                    </button>
+                  </div>
                 </div>
+              )}
             </div>
 
-        
-        {/* PRIORIDAD (fila independiente debajo) */}
+            <select
+              id="rf-subcategoria"
+              value={subcategoria}
+              onChange={(e) => setSubcategoria(e.target.value)}
+              disabled={!subcategoriasDisponibles.length}
+            >
+              <option value="">
+                {subcategoriasDisponibles.length ? "Selecciona una subcategoría" : "No disponible"}
+              </option>
+              {subcategoriasDisponibles.map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* PRIORIDAD */}
         <div className="rf-row2">
-        <div className="rf-field">
+          <div className="rf-field">
             <div className="rf-labelwrap" ref={priRef}>
-            <label htmlFor="rf-prioridad" className="rf-label">Prioridad <span className="req">*</span></label>
-            <button
+              <label htmlFor="rf-prioridad" className="rf-label">Prioridad <span className="req">*</span></label>
+              <button
                 type="button"
                 className="rf-help"
                 aria-label="Ayuda sobre prioridad"
                 aria-expanded={openHelp==='prioridad'}
                 onClick={() => setOpenHelp(openHelp==='prioridad' ? null : 'prioridad')}
-            >
-            <i className="bi bi-question-circle" aria-hidden="true"></i>
-            </button>
-            {openHelp==='prioridad' && (
+              >
+                <i className="bi bi-question-circle" aria-hidden="true"></i>
+              </button>
+
+              {openHelp==='prioridad' && (
                 <div className="rf-popover" role="dialog" aria-label="Ayuda: prioridad">
-                    <p><strong>Baja</strong>: impacto mínimo, puede esperar.</p>
-                    <p><strong>Media</strong>: afecta tu trabajo pero hay alternativa temporal.</p>
-                    <p><strong>Alta</strong>: bloquea tareas importantes, requiere atención pronta.</p>
-                    <p><strong>Crítica</strong>: servicio caído o riesgo mayor, atención inmediata.</p>
-                    <div className="rf-popover-actions">
-                        <button type="button" className="rf-btn rf-btn-pri" onMouseDown={(e) => {e.preventDefault();e.stopPropagation();setOpenHelp(null);}} onClick={(e) => {e.preventDefault(); setOpenHelp(null);}}>Entendido</button>
-                    </div>
+                  <p><strong>Baja</strong>: impacto mínimo, puede esperar.</p>
+                  <p><strong>Media</strong>: afecta tu trabajo pero hay alternativa temporal.</p>
+                  <p><strong>Alta</strong>: bloquea tareas importantes, requiere atención pronta.</p>
+                  <p><strong>Crítica</strong>: servicio caído o riesgo mayor, atención inmediata.</p>
+                  <div className="rf-popover-actions">
+                    <button
+                      type="button"
+                      className="rf-btn rf-btn-pri"
+                      onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); setOpenHelp(null); }}
+                      onClick={(e) => { e.preventDefault(); setOpenHelp(null); }}
+                    >
+                      Entendido
+                    </button>
+                  </div>
                 </div>
-            )}
+              )}
             </div>
 
             <select
-            id="rf-prioridad"
-            required
-            value={prioridad}
-            onChange={(e) => setPrioridad(e.target.value)}
+              id="rf-prioridad"
+              required
+              value={prioridad}
+              onChange={(e) => setPrioridad(e.target.value)}
             >
-            <option value="">Selecciona prioridad</option>
-            <option>Baja</option>
-            <option>Media</option>
-            <option>Alta</option>
-            <option>Crítica</option>
+              <option value="">Selecciona prioridad</option>
+              <option>Baja</option>
+              <option>Media</option>
+              <option>Alta</option>
+              <option>Crítica</option>
             </select>
-        </div>
+          </div>
         </div>
 
+        {/* DESCRIPCIÓN */}
         <label className="rf-field">
           <span className="rf-label">Descripción</span>
           <textarea
@@ -244,9 +260,10 @@ export default function ReportarFalla({ onCancelar, onEnviar }) {
           <div className="rf-counter">{descripcion.length}/{MAX_DESC}</div>
         </label>
 
+        {/* ARCHIVO */}
         <label className="rf-field">
           <span className="rf-label">Adjuntar evidencia (opcional)</span>
-          <input type="file" accept="image/*,application/pdf" onChange={manejarArchivo} />
+          <input id="rf-file" title="Seleccionar archivo" type="file" accept="image/*,application/pdf" onChange={manejarArchivo} className="rf-file-input" />
           {archivo && (
             <div className="rf-file">
               Archivo seleccionado: <strong>{archivo.name}</strong>
@@ -254,18 +271,33 @@ export default function ReportarFalla({ onCancelar, onEnviar }) {
           )}
         </label>
 
-        <div className="rf-actions">
+        {/* === Botones reportar o cancelar === */}
+        <div className="form-buttons-icons">
+          <button
+            type="submit"
+            className="icon-wrap"
+            data-tooltip="Reportar"
+            onClick={enviar}
+          >
+          <img
+            src={informIcon}
+            alt="Enviar"
+            className="btn-action-icon"
+            onClick={enviar}
+          /></button>
+
           <button
             type="button"
-            className="rf-btn rf-btn-sec"
+            className="icon-wrap"
+            data-tooltip="Cancelar"
             onClick={() => onCancelar?.()}
-            aria-label="Cancelar y volver al menú"
           >
-            Cancelar
-          </button>
-          <button type="submit" className="rf-btn rf-btn-pri">
-            Enviar
-          </button>
+          <img
+            src={cancelarIcon}
+            alt="Cancelar"
+            className="btn-action-icon"
+            onClick={() => onCancelar?.()}
+          /></button>
         </div>
       </form>
     </section>

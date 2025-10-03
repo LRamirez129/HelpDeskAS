@@ -1,95 +1,196 @@
+// src/vistas/PanelUsuario/ModuloUsuario.js
 import React, { useState, useEffect } from "react";
-import MenuUsuario from "./componentes/menuusuario";
-import "../modulo.css"; // mantiene tu estilo general si lo usas en otros paneles
+import "../modulo.css";
 
+// Detalle del técnico (lo reutilizamos)
 import DetalleTicketTecnico from "../PanelTecnico/ProcesosTec/DetalleTicket";
-import TicketTecnico from "../PanelTecnico/Ticket";
 
+// Historial del tecnico (lo reutilizamos)
+import Historial from "../PanelTecnico/Ticket";
+
+// Formulario real para reportar fallas
 import ReportarFalla from "./componentes/reportarfalla";
 
-/**
- * ModuloUsuario: sin sidebar, menú central y vistas internas.
- * Vistas: "menu" | "tickets" | "historial" | "reportar"
- */
-export default function ModuloUsuario({ onToggleBackButton }) {
-  const [view, setView] = useState("menu");
+// Iconos
+import ticketsIcon from '../../Iconos/tickets.gif';
+import historyIcon from '../../Iconos/history.png';
+import reportsIcon from '../../Iconos/reports.png';
 
-  // Mostrar el back-button solo en el menú del Usuario
+// Vista de tarjetas del técnico (con filtro y onAbrirTicket)
+import TicketPestaña from "../PanelTecnico/TicketPestaña";
+
+/* ===========================================================
+   Helpers para identificar al usuario y filtrar sus tickets
+   =========================================================== */
+
+// Lee identidad desde localStorage (ajusta las keys si usas otras)
+const obtenerUsuarioActual = () => {
+  const id =
+    localStorage.getItem('usuarioId') ||
+    localStorage.getItem('userId') ||
+    localStorage.getItem('idUsuario') ||
+    null;
+
+  const correo =
+    localStorage.getItem('correo') ||
+    localStorage.getItem('email') ||
+    null;
+
+  return {
+    id: id ? String(id) : null,
+    correo: correo ? String(correo).toLowerCase() : null,
+  };
+};
+
+// Estados visibles para el usuario (agrega 'asignado' o 'cerrado' si lo necesitas)
+const ESTADOS_VISIBLES_USUARIO = new Set([
+  'abierto',
+  'en progreso',
+  'en-progreso',
+]);
+
+// Coincidencia por id o correo (ajusta campos según tu shape real de ticket)
+const coincideUsuario = (ticket, usuario) => {
+  const uid = usuario.id;
+  const mail = usuario.correo;
+
+  const candidatosId = [
+    ticket.usuarioId,
+    ticket.solicitanteId,
+    ticket.creadorId,
+    ticket.clienteId,
+    ticket.userId,
+  ].filter(Boolean).map(v => String(v));
+
+  const candidatosMail = [
+    ticket.correo,
+    ticket.email,
+    ticket.correoSolicitante,
+  ].filter(Boolean).map(v => String(v).toLowerCase());
+
+  const okId = uid ? candidatosId.includes(String(uid)) : false;
+  const okMail = mail ? candidatosMail.includes(String(mail)) : false;
+
+  return okId || okMail;
+};
+
+// Filtro final que pasaremos a TicketPestaña
+const filtroTicketsUsuario = (ticket) => {
+  const usuario = obtenerUsuarioActual();
+
+  // estados en TicketPestaña de ejemplo: "Abierto", "Asignado", "En progreso"
+  const estado = String(ticket.estado || ticket.status || '').toLowerCase().replace('_', ' ');
+  const esEstadoVisible = ESTADOS_VISIBLES_USUARIO.has(estado);
+  const esDelUsuario = coincideUsuario(ticket, usuario);
+
+  return esDelUsuario && esEstadoVisible;
+};
+
+/* ===========================
+   Módulo principal del Usuario
+   =========================== */
+
+function ModuloUsuario({ onToggleBackButton }) {
+  // Opciones del sidebar
+  const navItems = [
+    { id: 'tickets',   label: 'Tickets',         icon: ticketsIcon },
+    { id: 'historial', label: 'Historial',       icon: historyIcon },
+    { id: 'reportar',  label: 'Reportar Falla',  icon: reportsIcon },
+  ];
+
+  // Estado de navegación local
+  const [activeModule, setActiveModule] = useState('tickets');
+  const [ticketSeleccionado, setTicketSeleccionado] = useState(null);
+
+  // Mantener el comportamiento de tu app (mostrar botón regresar según tu lógica)
   useEffect(() => {
-    onToggleBackButton?.(view === "menu");
-    }, [view, onToggleBackButton]);
+    if (typeof onToggleBackButton === 'function') onToggleBackButton(true);
+    return () => {
+      if (typeof onToggleBackButton === 'function') onToggleBackButton(true);
+    };
+  }, [onToggleBackButton]);
 
-    // Por seguridad, al desmontar reactivamos el botón
-    useEffect(() => {
-      return () => onToggleBackButton?.(true);
-      }, [onToggleBackButton]);
+  // Render de contenido central según la opción
+  const renderContenido = () => {
+    switch (activeModule) {
+      case 'tickets':
+        return (
+          <TicketPestaña
+            titulo="Mis Tickets"
+            filtro={filtroTicketsUsuario}
+            mostrarSLA={false}
+            onAbrirTicket={(ticket) => {
+              setTicketSeleccionado(ticket);
+              setActiveModule('detalleTicket');
+            }}
+            // Pasamos setActiveModule para compatibilidad con su navegación interna
+            setActiveModule={setActiveModule}
+          />
+        );
 
-  const BackBar = ({ title }) => (
-    <div className="usuario-topbar" style={{
-      display: "flex",
-      alignItems: "center",
-      gap: "12px",
-      padding: "12px 16px",
-    }}>
-      <button
-        onClick={() => setView("menu")}
-        className="back-button back-button--inline"
-        aria-label="Volver al menú"
-      >
-        ← Menú
-      </button>
-      <h2 style={{ margin: 0 }}>{title}</h2>
+      case 'detalleTicket':
+        // Reutiliza el mismo detalle del técnico con los datos del ticket elegido
+        return (
+          <DetalleTicketTecnico
+            ticket={ticketSeleccionado}
+            setActiveModule={setActiveModule}
+          />
+        );
+
+      case 'historial':
+        return (
+          <Historial
+            ticket={ticketSeleccionado}
+            setActiveModule={setActiveModule}
+          />
+        );
+
+      case 'reportar':
+        // 👉 Aquí ya mostramos el formulario real para reportar fallas
+
+        return <ReportarFalla onCancelar={() => setActiveModule('tickets')} />;
+
+      default:
+        return <div>Seleccione una opción del menú</div>;
+    }
+  };
+
+  return (
+    <div className="app-container">
+      {/* Sidebar con el mismo look & feel que los otros paneles */}
+      <div className="sidebar">
+        <div className="logo">
+          <p>Panel Usuario</p>
+          <p className="help-desk-text">HelpDesk Pro</p>
+        </div>
+
+        <nav className="nav-menu">
+          {navItems.map(item => (
+            <button
+              key={item.id}
+              className={`nav-item ${activeModule === item.id ? 'active' : ''}`}
+              onClick={() => setActiveModule(item.id)}
+              title={item.label}
+            >
+              <img src={item.icon} alt={item.label} className="nav-icon" />
+              <span>{item.label}</span>
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      {/* Contenido principal */}
+      <main className="main-content">
+        {renderContenido()}
+      </main>
     </div>
   );
-
-  if (view === "tickets") {
-    return (
-      <div className="usuario-view">
-        <BackBar title="Mis Tickets" />
-        {/* TODO: Conectar con tu lista real de tickets del usuario.
-                 Por ahora un placeholder seguro. */}
-        <div style={{ padding: "16px" }}>
-          <DetalleTicketTecnico />
-        </div>
-      </div>
-    );
-  }
-
-  if (view === "historial") {
-    return (
-      <div className="usuario-view">
-        <BackBar title="Historial de Tickets" />
-        <div style={{ padding: "16px" }}>
-          <TicketTecnico />
-        </div>
-      </div>
-    );
-  }
-
-  if (view === "reportar") {
-    return (
-      <div className="usuario-view">
-        <BackBar title="Reportar Falla" />
-        <div className="rf-wrap">
-          <ReportarFalla
-            onCancelar={() => setView("menu")}
-              onEnviar={(payload) => {
-                // Aquí podrías llamar API; por ahora solo mensaje y volver
-                console.log("Ticket enviado:", payload);
-                alert("Ejemplo: Ticket enviado");
-                setView("menu");
-              }
-            }
-          />
-        </div>          
-      </div>
-    );
-  }
-
-  // Vista MENU (por defecto)
-  return <MenuUsuario onNavigate={setView} />;
 }
 
+export default ModuloUsuario;
+
+
+// (estilos inline opcionales que ya tenías)
 const inputStyle = {
   width: "100%",
   marginTop: 6,

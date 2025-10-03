@@ -90,6 +90,7 @@
   border: 1px solid var(--border);
   outline: none;
   font-size: 0.95rem;
+  resize: none;
 }
 
 .rf-field input:focus,
@@ -354,3 +355,116 @@
   border-radius: 8px;
   cursor: pointer;
 }
+
+
+/* Barra de acciones con botones de solo icono */
+.rf-actions-iconbar {
+  display: flex;
+  gap: 14px;
+  margin-top: 14px;
+  align-items: center;
+}
+
+/* Botón circular/limpio solo icono */
+.icon-btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid #c9d6e2;
+  background: #fff;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: box-shadow .15s ease, transform .05s ease, background-color .15s ease;
+}
+
+.icon-btn:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  background-color: #f7fbff;
+}
+
+.icon-btn:active {
+  transform: translateY(1px);
+}
+/* ========= Variables (copiadas del modal) ========= */
+:root{
+  --primary-blue:#007bff;
+  --light-blue:#e6f2ff;
+  --dark-grey:#333;
+  --medium-grey:#666;
+  --light-grey:#f2f2f2;
+  --white:#ffffff;
+  --red-delete:#dc3545;
+  --yellow-update:#ffc107;
+
+  --soft-celeste:#e0f7fa;
+  --royal-blue:#0074B7;
+  --navy-blue:#003B73;
+}
+
+
+/* ========= Tooltip + iconos — exactamente como el modal ========= */
+
+/* contenedor de iconos alineado a la derecha */
+.form-buttons-icons{
+  display:flex;
+  justify-content:flex-end; /* alinea a la derecha */
+  gap:15px;
+  margin-top:20px;
+  overflow: visible;
+}
+
+/* iconos de acción (solo imagen) */
+.btn-action-icon{
+  width:40px;
+  height:40px;
+  cursor:pointer;
+  transition:transform .2s ease-in-out;
+  position:relative; /* necesario para el tooltip */
+}
+
+.btn-action-icon:hover{ transform:scale(1.2); }
+
+/* Wrapper del ícono (recibe el tooltip) */
+.icon-wrap {
+  position: relative;       /* <- necesario para posicionar el tooltip */
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  line-height: 0;           /* evita espacio extra alrededor del img */
+}
+
+/* tooltip */
+/* Tooltip en el WRAPPER, NO en el <img> */
+.icon-wrap[data-tooltip]::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--navy-blue);
+  color: var(--white);       /* contraste correcto */
+  padding: 8px 11px;
+  border-radius: 4px;
+  font-size: 15px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+  z-index: 1000;            /* encima de todo */
+}
+
+/* Mostrar al hover/focus */
+.icon-wrap:hover::before,
+.icon-wrap:hover::after,
+.icon-wrap:focus-visible::before,
+.icon-wrap:focus-visible::after {
+  opacity: 1;
+}
+
+
+
