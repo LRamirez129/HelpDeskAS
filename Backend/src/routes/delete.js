@@ -1,0 +1,52 @@
+// src/routes/delete.js
+import express from "express";
+import { execute, oracledb } from "../db.js";
+
+const router = express.Router();
+
+/**
+ * POST /api/delete
+ * Crea un nuevo departamento.
+ * Body esperado (JSON):
+ *   { usuarioId, asunto, descripcion?, prioridad, estado? }
+ * Notas:
+ *   - TIC_Ticket se genera con la secuencia HDK_TICKET_SEQ (ya creada).
+ *   - Estado por defecto: 'Abierto'
+ */
+router.post("/", async (req, res) => {
+    /*
+  const {
+    usuarioId,
+    asunto,
+    descripcion = null,
+    prioridad,
+    estado = "Abierto",
+    sla = null
+  } = req.body || {};
+
+  if (!usuarioId || !asunto || !prioridad) {
+    return res.status(400).json({
+      error: "usuarioId, asunto y prioridad son requeridos"
+    });
+  }
+    */
+
+  try {
+    const sql = `BEGIN USP_DELETE( :p_jsonObjeto, :id); END;`;
+    const jsonObjeto = JSON.stringify(req.body);
+    const binds = {p_jsonObjeto: jsonObjeto,                    
+                   id: { dir: oracledb.BIND_OUT, type: oracledb.NUMBER }
+                };
+
+    console.log(jsonObjeto);
+    const r = await execute(sql, binds, { autoCommit: true });
+    const newId = r?.outBinds?.id?.[0];
+
+    res.status(201).json({ id: newId, message: "Departamento modificado" });
+  } catch (err) {
+    console.error("POST /api/delete error:", err);
+    res.status(500).json({ error: "Error eliminando el departamento" });
+  }
+});
+
+export default router;

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createDepartamento } from '../../../../utilitarios/modelos/departamentoModel';
 import DepartamentoModal from './DepartamentoModal';
 import './Catalogos.css';
 
@@ -7,19 +8,27 @@ import updateIcon from '../../../../Iconos/editar.png';
 import deleteIcon from '../../../../Iconos/eliminar.png';
 import addIcon from '../../../../Iconos/add.png'
 
-
-const initialData = [
-    { DEP_DEPARTAMENTO: 1, NOMBRE: 'Administración', DESCRIPCION: 'Personal administrativo', ACTIVO: 'S' },
-    { DEP_DEPARTAMENTO: 2, NOMBRE: 'Ventas', DESCRIPCION: 'Sales representatives', ACTIVO: 'S' },
-    { DEP_DEPARTAMENTO: 3, NOMBRE: 'Marketing', DESCRIPCION: 'Personal de publicidad y mercadeo', ACTIVO: 'N' },
-    { DEP_DEPARTAMENTO: 4, NOMBRE: 'Atención al Cliente', DESCRIPCION: 'Personal de atención al cliente', ACTIVO: 'S' },
-    { DEP_DEPARTAMENTO: 5, NOMBRE: 'Sistemas', DESCRIPCION: 'Personal área de tecnología', ACTIVO: 'S' },
-];
-
 const DepartamentosList = () => {
-    const [departamentos, setDepartamentos] = useState(initialData);
+    const [departamentos, setDepartamentos] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [currentDepartamento, setCurrentDepartamento] = useState(null);
+
+    const fetchDepartamentos = async () => {
+        try {
+            const response = await fetch('http://localhost:4000/api/read?entidad=DEPARTAMENTO');
+            if (!response.ok) throw new Error('Error al obtener departamentos');
+            let data = await response.json();
+            // Estandariza cada objeto usando el modelo
+            data = data.map(dep => createDepartamento(dep));
+            setDepartamentos(data);
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchDepartamentos();
+    }, []);
 
     const handleCreate = () => {
         setCurrentDepartamento(null);
@@ -32,24 +41,25 @@ const DepartamentosList = () => {
     };
 
     const handleSave = (savedDepartamento) => {
-        if (savedDepartamento.DEP_DEPARTAMENTO) {
-            setDepartamentos(departamentos.map(dep =>
-                dep.DEP_DEPARTAMENTO === savedDepartamento.DEP_DEPARTAMENTO ? savedDepartamento : dep
-            ));
-            alert('Técnico actualizado con éxito.');
-        } else {
-            const newId = Math.max(...departamentos.map(dep => dep.DEP_DEPARTAMENTO)) + 1;
-            const newDepartamento = { ...savedDepartamento, DEP_DEPARTAMENTO: newId };
-            setDepartamentos([...departamentos, newDepartamento]);
-            alert('Técnico agregado con éxito.');
-        }
+        fetchDepartamentos();
         setModalOpen(false);
     };
 
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
+        const departamento = departamentos.find(dep => dep.DEP_DEPARTAMENTO === id);
+        if (!departamento) return;
         if (window.confirm('¿Estás seguro de que quieres eliminar este departamento?')) {
-            setDepartamentos(departamentos.filter(dep => dep.DEP_DEPARTAMENTO !== id));
-            alert('Técnico eliminado con éxito.');
+            try {
+                const response = await fetch('http://localhost:4000/api/delete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(departamento)
+                });
+                if (!response.ok) throw new Error('Error al eliminar el departamento');
+                fetchDepartamentos();
+            } catch (error) {
+                alert(error.message);
+            }
         }
     };
 
@@ -66,25 +76,25 @@ const DepartamentosList = () => {
                     </div>
                 </div>
                 <div className="items-list">
-                {initialData.map((dep) => (
+                {departamentos.map((dep) => (
                     <div key={dep.DEP_DEPARTAMENTO} className="item-card">
                         <div>
-                            <span class="item-title">{dep.NOMBRE}</span>&nbsp;&nbsp;
-                            <span className={`status-tag ${dep.ACTIVO==='S'?"active":"inactive"}`}>{dep.ACTIVO === 'S' ? 
+                            <span className="item-title">{dep.DEP_NOMBRE}</span>&nbsp;&nbsp;
+                            <span className={`status-tag ${dep.DEP_ACTIVO==='S'?"active":"inactive"}`}>{dep.DEP_ACTIVO === 'S' ? 
                                             <span className="status-dot active"></span> : 
                                             <span className="status-dot inactive"></span>
                                         }
-                                        {dep.ACTIVO === 'S' ? ' Activo' : ' Inactivo'}</span><br />
+                                        {dep.DEP_ACTIVO === 'S' ? ' Activo' : ' Inactivo'}</span><br />
                             <span className="item-meta">
-                                <strong>ID {dep.DEP_DEPARTAMENTO}</strong> | {dep.DESCRIPCION}
+                                <strong>ID {dep.DEP_DEPARTAMENTO}</strong> | {dep.DEP_UBICACION}
                             </span>
                         </div>
                         <div style={{marginLeft: 'auto', alignSelf: 'center'}}>
                             <button className="action-button abrir-button" onClick={() => handleEdit(dep)} data-tooltip="Detalle">
                                 <center><img src={updateIcon} alt="Abrir" /></center>
                             </button> &nbsp;
-                            <button className="action-button sla-button" onClick={() => handleDelete(dep.DEP_DEPARTAMENTO)} data-tooltip="SLA">
-                                <center><img src={deleteIcon} alt="SLA" /></center>
+                            <button className="action-button sla-button" onClick={() => handleDelete(dep.DEP_DEPARTAMENTO)} data-tooltip="Eliminar">
+                                <center><img src={deleteIcon} alt="Eliminar" /></center>
                             </button>
                         </div>
                     </div>

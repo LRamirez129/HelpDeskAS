@@ -4,11 +4,16 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { initPool, execute } from "./db.js";
 import ticketsRouter from "./routes/tickets.js";
+import createRouter from "./routes/create.js"; 
+import readRouter from "./routes/read.js"; 
+import updateRouter from "./routes/update.js"; 
+import deleteRouter from "./routes/delete.js"; 
+
 
 dotenv.config();
 
 const app = express();
-const ALLOW_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:5173";
+const ALLOW_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:3000";
 
 app.use(cors({ origin: ALLOW_ORIGIN, credentials: true }));
 app.use(express.json());
@@ -27,6 +32,14 @@ app.get("/api/ping", async (req, res) => {
 
 // ⬇️ registra la ruta de tickets
 app.use("/api/tickets", ticketsRouter);
+// ⬇️ registra la ruta de create
+app.use("/api/create", createRouter); 
+// ⬇️ registra la ruta de read
+app.use("/api/read", readRouter); 
+// ⬇️ registra la ruta de update
+app.use("/api/update", updateRouter); 
+// ⬇️ registra la ruta de delete
+app.use("/api/delete", deleteRouter); 
 
 const PORT = Number(process.env.PORT || 4000);
 app.listen(PORT, async () => {

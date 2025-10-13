@@ -2,42 +2,16 @@ import React, { useState, useEffect } from 'react';
 import './Catalogos.css';
 import guardarIcon from '../../../../Iconos/guardar.png';
 import cancelarIcon from '../../../../Iconos/cancelar.png';
+import { createUsuario } from '../../../../utilitarios/modelos/usuarioModel';
 
 const UsuarioModal = ({ usuario, onSave, onClose }) => {
-    const [formData, setFormData] = useState({
-        nombre: '',
-        correo: '',
-        telefono: '',
-        extension: '',
-        activo: 'S',
-        password: '',
-        rol: 'USER',
-        departamento: 1
-    });
+    const [formData, setFormData] = useState(createUsuario());
 
     useEffect(() => {
         if (usuario) {
-            setFormData({
-                nombre: usuario.NOMBRE,
-                correo: usuario.CORREO,
-                telefono: usuario.TELEFONO,
-                extension: usuario.EXTENSION,
-                activo: usuario.ACTIVO,
-                password: usuario.PASSWORD,
-                rol: usuario.ROL,
-                departamento: usuario.DEPARTAMENTO
-            });
+            setFormData(createUsuario(usuario));
         } else {
-            setFormData({
-                nombre: '',
-                correo: '',
-                telefono: '',
-                extension: '',
-                activo: 'S',
-                password: '',
-                rol: 'USER',
-                departamento: 1
-            });
+            setFormData(createUsuario());
         }
     }, [usuario]);
 
@@ -45,37 +19,62 @@ const UsuarioModal = ({ usuario, onSave, onClose }) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: value
+            [name === 'nombre' ? 'USR_NOMBRE' : 
+                name === 'correo' ? 'USR_CORREO' : 
+                name === 'telefono' ? 'USR_TELEFONO' : 
+                name === 'extension' ? 'USR_EXTENSION' : 
+                name === 'password' ? 'USR_PASSWORD' : 
+                name === 'rol' ? 'USR_ROL' : 
+                name === 'departamento' ? 'DEP_DEPARTAMENTO' : 
+                name === 'activo' ? 'USR_ACTIVO' : 
+                name]: value
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        onSave({ ...formData, TEC_TECNICO: usuario ? usuario.TEC_TECNICO : null });
+        try {
+            let apiUrl = 'http://localhost:4000/api/create';
+            let updateData = { ...formData };
+            if (usuario?.USR_USUARIO) {
+                updateData.USR_USUARIO = usuario.USR_USUARIO;
+                apiUrl = 'http://localhost:4000/api/update';
+            }            
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+            if (!response.ok) throw new Error('Error al guardar el usuario');
+            const data = await response.json();
+            onSave(data);
+        } catch (error) {
+            alert(error.message);
+        }
     };
 
     return (
         <div className="modal-backdrop">
             <div className="modal-content">
                 <span className="close-button" onClick={onClose}>&times;</span>
-                <h2>{usuario ? 'Editar Técnico' : 'Agregar Técnico'}</h2>
+                <h2>{usuario ? 'Editar Usuario' : 'Agregar Usuario'}</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label>Nombre</label>
-                        <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
+                        <input type="text" name="nombre" value={formData.USR_NOMBRE} onChange={handleChange} required />
                     </div>
                     <div className="form-group">
                         <label>Correo</label>
-                        <input type="email" name="correo" value={formData.correo} onChange={handleChange} required />
+                        <input type="email" name="correo" value={formData.USR_CORREO} onChange={handleChange} required />
                     </div>
                     <div className="form-row">
                         <div className="form-group">
                             <label>Teléfono</label>
-                            <input type="tel" name="telefono" value={formData.telefono} onChange={handleChange} />
+                            <input type="tel" name="telefono" value={formData.USR_TELEFONO} onChange={handleChange} />
                         </div>
                         <div className="form-group">
                             <label>Extensión</label>
-                            <select name="extension" value={formData.extension} onChange={handleChange}>
+                            <select name="extension" value={formData.USR_EXTENSION} onChange={handleChange}>
                                 <option value="">-- Seleccionar --</option>
                                 <option value="1001">1001</option>
                                 <option value="1002">1002</option>
@@ -99,16 +98,16 @@ const UsuarioModal = ({ usuario, onSave, onClose }) => {
                     <div className="form-row">
                         <div className="form-group">
                             <label>Rol</label>
-                            <select name="rol" value={formData.rol} onChange={handleChange}>
+                            <select name="rol" value={formData.USR_ROL} onChange={handleChange}>
                                 <option value="USER">Usuario</option>
-                                <option value="ADMIN">Administrador</option>
-                                <option value="SUPERADMIN">Super Administrador</option>
+                                <option value="TECH">Tecnico</option>
+                                <option value="ADMIN">Administrador</option>                                
                                 {/* Agrega más opciones aquí si es necesario */}
                             </select>
                         </div>
                         <div className="form-group">
                             <label>Departamento</label>
-                            <select name="departamento" value={formData.departamento} onChange={handleChange}>
+                            <select name="departamento" value={formData.DEP_DEPARTAMENTO} onChange={handleChange}>
                                     <option value="">-- Seleccionar --</option>
                                     <option value="1">Administración</option>
                                     <option value="2">Ventas</option>
@@ -126,7 +125,7 @@ const UsuarioModal = ({ usuario, onSave, onClose }) => {
                                         type="radio"
                                         name="activo"
                                         value="S"
-                                        checked={formData.activo === 'S'}
+                                        checked={formData.USR_ACTIVO === 'S'}
                                         onChange={handleChange}
                                     />
                                     Activo
@@ -136,7 +135,7 @@ const UsuarioModal = ({ usuario, onSave, onClose }) => {
                                         type="radio"
                                         name="activo"
                                         value="N"
-                                        checked={formData.activo === 'N'}
+                                        checked={formData.USR_ACTIVO === 'N'}
                                         onChange={handleChange}
                                     />
                                     Inactivo

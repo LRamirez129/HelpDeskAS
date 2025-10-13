@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createUsuario } from '../../../../utilitarios/modelos/usuarioModel';
 import UsuarioModal from './UsuarioModal';
 import './Catalogos.css';
 
@@ -8,20 +9,30 @@ import deleteIcon from '../../../../Iconos/eliminar.png';
 import addIcon from '../../../../Iconos/add.png';
 import searchIcon from '../../../../Iconos/buscar.png'; // Asegúrate de tener este icono
 
-const initialData = [
-    { USR_USUARIO: 1, NOMBRE: 'Carlos García', CORREO: 'carlos.g@email.com', TELEFONO: '555-1234', EXTENSION: '1001', ACTIVO: 'S', PASSWORD: '', ROL: 'USER', DEPARTAMENTO: '2' },
-    { USR_USUARIO: 2, NOMBRE: 'Ana López', CORREO: 'ana.l@email.com', TELEFONO: '555-5678', EXTENSION: '1002', ACTIVO: 'S', PASSWORD: '', ROL: 'USER', DEPARTAMENTO: '2' },
-    { USR_USUARIO: 3, NOMBRE: 'Luis Pérez', CORREO: 'luis.p@email.com', TELEFONO: '555-9012', EXTENSION: '1003', ACTIVO: 'N', PASSWORD: '', ROL: 'USER', DEPARTAMENTO: '2' },
-    { USR_USUARIO: 4, NOMBRE: 'Marta Diaz', CORREO: 'marta.d@email.com', TELEFONO: '555-1122', EXTENSION: '1004', ACTIVO: 'S', PASSWORD: '', ROL: 'USER', DEPARTAMENTO: '2' },
-    { USR_USUARIO: 5, NOMBRE: 'Juan Ramos', CORREO: 'juan.r@email.com', TELEFONO: '555-3344', EXTENSION: '1005', ACTIVO: 'S', PASSWORD: '', ROL: 'USER', DEPARTAMENTO: '2' },
-];
-
 const UsuariosList = () => {
-    const [usuarios, setUsuarios] = useState(initialData);
-    const [filteredUsuarios, setFilteredUsuarios] = useState(initialData);
+    const [usuarios, setUsuarios] = useState([]);
+    const [filteredUsuarios, setFilteredUsuarios] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
     const [currentUsuario, setCurrentUsuario] = useState(null);
+
+    const fetchUsuarios = async () => {
+        try {
+            const response = await fetch('http://localhost:4000/api/read?entidad=USUARIO');
+            if (!response.ok) throw new Error('Error al obtener usuarios');
+            let data = await response.json();
+            // Estandariza cada objeto usando el modelo
+            data = data.map(usr => createUsuario(usr));
+            setUsuarios(data);
+            setFilteredUsuarios(data);
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchUsuarios();
+    }, []);
 
     // Función para manejar la búsqueda en tiempo real
     const handleSearch = (data, term) => {
@@ -30,7 +41,7 @@ const UsuariosList = () => {
             setFilteredUsuarios(data);
         } else {
             const filtered = data.filter(d =>
-                d.NOMBRE.toLowerCase().includes(term.toLowerCase())
+                d.USR_NOMBRE.toLowerCase().includes(term.toLowerCase())
             );
             setFilteredUsuarios(filtered);
         }
@@ -46,58 +57,26 @@ const UsuariosList = () => {
         setModalOpen(true);
     };
 
-    const handleSave = (savedUsuario) => {
-        if (savedUsuario.USR_USUARIO) {
-            const updatedUsuarios = usuarios.map(usr =>
-                usr.USR_USUARIO === savedUsuario.USR_USUARIO ? savedUsuario : usr
-            );
-            setUsuarios(updatedUsuarios);
-            
-            // Actualizar también la lista filtrada
-            if (searchTerm) {
-                const filtered = updatedUsuarios.filter(usuario =>
-                    usuario.NOMBRE.toLowerCase().includes(searchTerm.toLowerCase())
-                );
-                setFilteredUsuarios(filtered);
-            } else {
-                setFilteredUsuarios(updatedUsuarios);
-            }
-            alert('Usuario actualizado con éxito.');
-        } else {
-            const newId = Math.max(...usuarios.map(usr => usr.USR_USUARIO)) + 1;
-            const newUsuario = { ...savedUsuario, USR_USUARIO: newId };
-            const updatedUsuarios = [...usuarios, newUsuario];
-            setUsuarios(updatedUsuarios);
-            
-            // Actualizar también la lista filtrada
-            if (searchTerm) {
-                const filtered = updatedUsuarios.filter(usuario =>
-                    usuario.NOMBRE.toLowerCase().includes(searchTerm.toLowerCase())
-                );
-                setFilteredUsuarios(filtered);
-            } else {
-                setFilteredUsuarios(updatedUsuarios);
-            }
-            alert('Usuario agregado con éxito.');
-        }
+    const handleSave = () => {
+        fetchUsuarios();
         setModalOpen(false);
     };
 
-    const handleDelete = (id) => {
-        if (window.confirm('¿Estás seguro de que quieres eliminar este técnico?')) {
-            const updatedUsuarios = usuarios.filter(usr => usr.USR_USUARIO !== id);
-            setUsuarios(updatedUsuarios);
-            
-            // Actualizar también la lista filtrada
-            if (searchTerm) {
-                const filtered = updatedUsuarios.filter(usuario =>
-                    usuario.NOMBRE.toLowerCase().includes(searchTerm.toLowerCase())
-                );
-                setFilteredUsuarios(filtered);
-            } else {
-                setFilteredUsuarios(updatedUsuarios);
+    const handleDelete = async (id) => {
+        const usuario = usuarios.find(usr => usr.USR_USUARIO === id);
+        if (!usuario) return;
+        if (window.confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
+            try {
+                const response = await fetch('http://localhost:4000/api/delete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(usuario)
+                });
+                if (!response.ok) throw new Error('Error al eliminar el usuario');
+                fetchUsuarios();
+            } catch (error) {
+                alert(error.message);
             }
-            alert('Usuario eliminado con éxito.');
         }
     };
 
@@ -128,16 +107,16 @@ const UsuariosList = () => {
                     {filteredUsuarios.map((usr) => (
                         <div key={usr.USR_USUARIO} className="item-card">
                             <div>
-                                <span className="item-title">{usr.NOMBRE}</span>&nbsp;&nbsp;
-                                <span className={`status-tag ${usr.ACTIVO==='S'?"active":"inactive"}`}>
-                                    {usr.ACTIVO === 'S' ? 
+                                <span className="item-title">{usr.USR_NOMBRE}</span>&nbsp;&nbsp;
+                                <span className={`status-tag ${usr.USR_ACTIVO==='S'?"active":"inactive"}`}>
+                                    {usr.USR_ACTIVO === 'S' ? 
                                         <span className="status-dot active"></span> : 
                                         <span className="status-dot inactive"></span>
                                     }
-                                    {usr.ACTIVO === 'S' ? ' Activo' : ' Inactivo'}
+                                    {usr.USR_ACTIVO === 'S' ? ' Activo' : ' Inactivo'}
                                 </span><br />
                                 <span className="item-meta">
-                                    <strong>ID {usr.USR_USUARIO}</strong> | {usr.CORREO} | {usr.TELEFONO} <br />
+                                    <strong>ID {usr.USR_USUARIO}</strong> | {usr.USR_CORREO} | {usr.USR_TELEFONO} <br />
                                 </span>
                             </div>
                             <div style={{marginLeft: 'auto', alignSelf: 'center'}}>

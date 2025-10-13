@@ -1,28 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { createDepartamento } from '../../../../utilitarios/modelos/departamentoModel';
 import './Catalogos.css';
 import guardarIcon from '../../../../Iconos/guardar.png';
 import cancelarIcon from '../../../../Iconos/cancelar.png';
 
 const DepartamentoModal = ({ departamento, onSave, onClose }) => {
-    const [formData, setFormData] = useState({
-        nombre: '',
-        descripcion: '',
-        activo: 'S'
-    });
+    const [formData, setFormData] = useState(createDepartamento());
 
     useEffect(() => {
         if (departamento) {
-            setFormData({
-                nombre: departamento.NOMBRE,
-                descripcion: departamento.DESCRIPCION,
-                activo: departamento.ACTIVO
-            });
+            setFormData(createDepartamento(departamento));
         } else {
-            setFormData({
-                nombre: '',
-                descripcion: '',
-                activo: 'S'
-            });
+            setFormData(createDepartamento());
         }
     }, [departamento]);
 
@@ -30,13 +19,30 @@ const DepartamentoModal = ({ departamento, onSave, onClose }) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: value
+            [name === 'nombre' ? 'DEP_NOMBRE' : name === 'ubicacion' ? 'DEP_UBICACION' : name === 'activo' ? 'DEP_ACTIVO' : name]: value
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        onSave({ ...formData, DEP_DEPARTAMENTO: departamento ? departamento.DEP_DEPARTAMENTO : null });
+        try {
+            let apiUrl = 'http://localhost:4000/api/create';
+            let updateData = { ...formData };
+            if (departamento?.DEP_DEPARTAMENTO) {
+                updateData.DEP_DEPARTAMENTO = departamento.DEP_DEPARTAMENTO;
+                apiUrl = 'http://localhost:4000/api/update';
+            }
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updateData)
+            });
+            if (!response.ok) throw new Error('Error al guardar el departamento');
+            const data = await response.json();
+            onSave(data);
+        } catch (error) {
+            alert(error.message);
+        }
     };
 
     return (
@@ -47,12 +53,12 @@ const DepartamentoModal = ({ departamento, onSave, onClose }) => {
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label>Nombre</label>
-                        <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
+                        <input type="text" name="nombre" value={formData.DEP_NOMBRE} onChange={handleChange} required />
                     </div>
                     <div className="form-group">
-                        <label>Descripción</label>
-                        <input type="text" name="correo" value={formData.descripcion} onChange={handleChange} required />
-                    </div>                    
+                        <label>Ubicacion</label>
+                        <input type="text" name="ubicacion" value={formData.DEP_UBICACION} onChange={handleChange} required />
+                    </div>
                     <div className="form-group radio-group">
                         <label>Estado</label>
                         <div className="radio-options">
@@ -61,7 +67,7 @@ const DepartamentoModal = ({ departamento, onSave, onClose }) => {
                                     type="radio"
                                     name="activo"
                                     value="S"
-                                    checked={formData.activo === 'S'}
+                                    checked={formData.DEP_ACTIVO === 'S'}
                                     onChange={handleChange}
                                 />
                                 Activo
@@ -71,7 +77,7 @@ const DepartamentoModal = ({ departamento, onSave, onClose }) => {
                                     type="radio"
                                     name="activo"
                                     value="N"
-                                    checked={formData.activo === 'N'}
+                                    checked={formData.DEP_ACTIVO === 'N'}
                                     onChange={handleChange}
                                 />
                                 Inactivo
@@ -79,16 +85,16 @@ const DepartamentoModal = ({ departamento, onSave, onClose }) => {
                         </div>
                     </div>
                     <div className="form-buttons-icons">
-                        <img 
-                            src={guardarIcon} 
-                            alt="Guardar" 
+                        <img
+                            src={guardarIcon}
+                            alt="Guardar"
                             className="btn-action-icon"
                             data-tooltip="Guardar"
                             onClick={handleSubmit}
                         />
-                        <img 
-                            src={cancelarIcon} 
-                            alt="Cancelar" 
+                        <img
+                            src={cancelarIcon}
+                            alt="Cancelar"
                             className="btn-action-icon"
                             data-tooltip="Cancelar"
                             onClick={onClose}
