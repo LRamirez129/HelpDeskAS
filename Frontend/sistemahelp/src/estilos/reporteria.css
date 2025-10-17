@@ -106,3 +106,25 @@
 .reporteria-content {
     padding: 20px;
 }
+
+
+.reports-header {
+  background-color: var(--white);
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.reports-header h1 {
+  font-size: 28px;
+  margin: 0;
+  color: var(--royal-blue);
+}
+
+.reports-header p {
+  font-size: 14px;
+  color: var(--medium-grey);
+  font-weight: 500;
+}

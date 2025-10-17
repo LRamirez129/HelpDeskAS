@@ -173,97 +173,10 @@ const TicketPestana = ({
     // 8. RENDERIZADO DE TICKETS Y FILTROS (Bloque de filtros modificado)
     return (
         <div className="ticket-list-container">
-            <header className="ticket-list-header">
-                <h2>{titulo || 'Tickets Asignados'}</h2>
-            </header>
-
-            {/* BARRA DE FILTROS - DISEÑO MEJORADO CON DESPLEGABLES */}
-            <div className="ticket-filters-bar">
-                
-                {/* 1. Búsqueda por Texto */}
-                <div className="filter-wrapper filter-search-wrapper">
-                    <BsSearch className="filter-icon" /> 
-                    <input
-                        type="text"
-                        placeholder="Buscar por ID o Título..."
-                        value={searchText}
-                        onChange={(e) => setSearchText(e.target.value)}
-                        className="filter-input-search"
-                    />
-                </div>
-
-                {/* 2. Filtro por Estado (Azul Claro) */}
-                <div className="filter-wrapper filter-select-estado"> 
-                    <BsInfoCircleFill className="filter-icon" title="Filtrar por Estado" /> 
-                    <select
-                        value={filterEstado}
-                        onChange={(e) => setFilterEstado(e.target.value)}
-                        className="filter-select"
-                    >
-                        {/* AHORA INCLUYE 'Todos' COMO OPCIÓN SELECCIONABLE */}
-                        {availableEstados.map(estado => (
-                            <option 
-                                key={estado} 
-                                value={estado}
-                            >
-                                {estado === 'Todos' ? 'Estado' : estado}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                {/* 3. Filtro por Prioridad (Amarillo Claro) */}
-                <div className="filter-wrapper filter-select-prioridad">
-                    <BsExclamationTriangleFill className="filter-icon" title="Filtrar por Prioridad" /> 
-                    <select
-                        value={filterPrioridad}
-                        onChange={(e) => setFilterPrioridad(e.target.value)}
-                        className="filter-select"
-                    >
-                        {/* AHORA INCLUYE 'Todas' COMO OPCIÓN SELECCIONABLE */}
-                        {availablePrioridades.map(prioridad => (
-                            <option 
-                                key={prioridad} 
-                                value={prioridad}
-                            >
-                                {prioridad === 'Todas' ? 'Prioridad' : prioridad}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                {/* 4. Filtro por Categoría (Verde Claro) */}
-                <div className="filter-wrapper filter-select-categoria">
-                    <BsTagsFill className="filter-icon" title="Filtrar por Categoría" /> 
-                    <select
-                        value={filterCategoria}
-                        onChange={(e) => setFilterCategoria(e.target.value)}
-                        className="filter-select"
-                    >
-                        {/* AHORA INCLUYE 'Todas' COMO OPCIÓN SELECCIONABLE */}
-                        {availableCategorias.map(categoria => (
-                            <option 
-                                key={categoria} 
-                                value={categoria}
-                            >
-                                {categoria === 'Todas' ? 'Categoría' : categoria}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                {/* 5. Botón de Limpiar Filtros */}
-                <button 
-                    className="action-button clear-filters-button"
-                    onClick={handleClearFilters}
-                    title="Limpiar Filtros"
-                >
-                    <BsTrash className="filter-icon" />
-                </button>
+            <div class="tickets-header">
+            <h1>Tickets Asignados</h1>
+            <p>Gestiona todos los tickets que se te han asignado.</p>
             </div>
-            {/* FIN DEL CONTENEDOR DE FILTROS */}
-
-
             <div className="ticket-cards-grid">
                 {filteredTickets.map(ticket => (
                     <div key={ticket.ID_TICKET} className="ticket-card"> 

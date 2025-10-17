@@ -116,6 +116,10 @@ function Reporteria() {
 
     return (
         <div className="reporteria-container">
+            <div className="reports-header">
+                <h1>Reportes de Tickets</h1>
+                <p>Selecciona un reporte para visualizar las estadísticas.</p>
+            </div>
             {reporteActual && (
                 <button
                     className="back-button"
