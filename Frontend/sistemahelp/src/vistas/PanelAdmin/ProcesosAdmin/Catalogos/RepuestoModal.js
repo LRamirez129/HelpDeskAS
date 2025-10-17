@@ -1,113 +1,113 @@
+// RepuestoModal.js
+
 import React, { useState, useEffect } from 'react';
 import './Catalogos.css';
 import guardarIcon from '../../../../Iconos/guardar.png';
 import cancelarIcon from '../../../../Iconos/cancelar.png';
 
-const RepuestoModal = ({ repuesto, onSave, onClose }) => {
+const RepuestoModal = ({ repuesto, onSave, onClose, ticketsList }) => { 
     const [formData, setFormData] = useState({
-        nombre: '',
-        descripcion: '',
-        activo: 'S'
+        TIC_Ticket: null,       // Campo para el ticket seleccionado
+        REP_Repuesto: '',       
+        TRP_Cantidad: 1,        
+        TRP_Descripcion: ''     
     });
+    
+    const isEditing = !!repuesto; 
 
     useEffect(() => {
-        if (repuesto) {
+        if (isEditing) {
             setFormData({
-                sku: repuesto.SKU,
-                nombre: repuesto.NOMBRE,
-                descripcion: repuesto.DESCRIPCION,
-                costounitario: repuesto.COSTOUNITARIO,
-                moneda: repuesto.MONEDA,
-                activo: repuesto.ACTIVO
+                TIC_Ticket: repuesto.TICKET_ID,
+                REP_Repuesto: repuesto.CODIGO_REPUESTO || '', 
+                TRP_Cantidad: repuesto.CANTIDAD || 1,        
+                TRP_Descripcion: repuesto.DESCRIPCION || ''   
             });
         } else {
+            // Para creación: Selecciona el primer ticket o vacío si no hay
             setFormData({
-                sku:'',
-                nombre: '',
-                descripcion: '',
-                costounitario: 0.00,
-                moneda: 'GTQ',
-                activo: 'S'
+                TIC_Ticket: ticketsList.length > 0 ? ticketsList[0].ID : '', 
+                REP_Repuesto: '',
+                TRP_Cantidad: 1,
+                TRP_Descripcion: ''
             });
         }
-    }, [repuesto]);
+    }, [repuesto, isEditing, ticketsList]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: value
+            // Aseguramos que TIC_Ticket y TRP_Cantidad sean números
+            [name]: (name === 'TRP_Cantidad' || name === 'TIC_Ticket') ? Number(value) : value
         });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSave({ ...formData, REP_REPUESTO: repuesto ? repuesto.REP_REPUESTO : null });
+        
+        // Validación crucial para creación
+        if (!isEditing && (!formData.TIC_Ticket || formData.TIC_Ticket === '')) {
+             alert("Debe seleccionar un número de ticket.");
+             return;
+        }
+
+        onSave({ 
+            ...formData, 
+            TRP_Repuesto: repuesto?.ID 
+        });
     };
 
     return (
         <div className="modal-backdrop">
-            <div className="modal-content">
+            <div className="modal-content" style={{maxWidth: '500px'}}>
                 <span className="close-button" onClick={onClose}>&times;</span>
-                <h2>{repuesto ? 'Editar Repuesto' : 'Agregar Repuesto'}</h2>
+                <h2>{isEditing ? 'Editar Repuesto' : 'Agregar Repuesto'}</h2>
                 <form onSubmit={handleSubmit}>
-                    <div className="form-row">
+                    
+                    {/* CAMPO SELECT PARA TICKET (SOLO EN CREACIÓN) */}
+                    {!isEditing && (
                         <div className="form-group">
-                            <label>Nombre</label>
-                            <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
+                            <label>Número de Ticket</label>
+                            {ticketsList.length > 0 ? (
+                                <select 
+                                    name="TIC_Ticket" 
+                                    value={formData.TIC_Ticket || ''} 
+                                    onChange={handleChange} 
+                                    required
+                                >
+                                    <option value="" disabled>Seleccione un Ticket</option>
+                                    {ticketsList.map(ticket => (
+                                        <option key={ticket.ID} value={ticket.ID}>
+                                            {ticket.ID} - {ticket.TITULO}
+                                        </option>
+                                    ))}
+                                </select>
+                            ) : (
+                                <p style={{color: 'red'}}>No hay tickets disponibles. Cree un ticket primero.</p>
+                            )}
                         </div>
-                        <div className="form-group">
-                            <label>SKU</label>
-                            <input type="text" name="sku" value={formData.sku} onChange={handleChange} required />
-                        </div>      
-                    </div>
+                    )}
+                    
                     <div className="form-group">
-                        <label>Descripción</label>
-                        <input type="text" name="correo" value={formData.descripcion} onChange={handleChange} required />
-                    </div>  
-                    <div className='form-row'>
-                        <div className="form-group">
-                            <label>Costo Unitario</label>
-                            <input type="number" name="costounitario" value={formData.costounitario} onChange={handleChange} required />
-                        </div>
-                        <div className="form-group">
-                            <label>Moneda</label>
-                            <input type="text" name="moneda" value={formData.moneda} onChange={handleChange} required />
-                        </div>   
-                        <div className="form-group radio-group">
-                            <label>Estado</label>
-                            <div className="radio-options">
-                                <label className="radio-label">
-                                    <input
-                                        type="radio"
-                                        name="activo"
-                                        value="S"
-                                        checked={formData.activo === 'S'}
-                                        onChange={handleChange}
-                                    />
-                                    Activo
-                                </label>
-                                <label className="radio-label">
-                                    <input
-                                        type="radio"
-                                        name="activo"
-                                        value="N"
-                                        checked={formData.activo === 'N'}
-                                        onChange={handleChange}
-                                    />
-                                    Inactivo
-                                </label>
-                            </div>
-                        </div>
+                        <label>Código o Nombre del Repuesto</label>
+                        <input type="text" name="REP_Repuesto" value={formData.REP_Repuesto} onChange={handleChange} required />
                     </div>
+                    
+                    <div className="form-group">
+                        <label>Cantidad</label>
+                        <input type="number" name="TRP_Cantidad" value={formData.TRP_Cantidad} onChange={handleChange} min="1" required />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Descripción / Notas</label>
+                        <input type="text" name="TRP_Descripcion" value={formData.TRP_Descripcion} onChange={handleChange} />
+                    </div> 
+
                     <div className="form-buttons-icons">
-                        <img 
-                            src={guardarIcon} 
-                            alt="Guardar" 
-                            className="btn-action-icon"
-                            data-tooltip="Guardar"
-                            onClick={handleSubmit}
-                        />
+                        <button type="submit" className="btn-action-icon" style={{border: 'none', background: 'none', cursor: 'pointer'}}>
+                            <img src={guardarIcon} alt="Guardar" className="btn-action-icon" data-tooltip="Guardar"/>
+                        </button>
                         <img 
                             src={cancelarIcon} 
                             alt="Cancelar" 

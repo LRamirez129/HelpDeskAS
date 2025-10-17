@@ -22,22 +22,71 @@ const navItems = [
 ];
 
 function ModuloTecnico() {
-    const [activeModule, setActiveModule] = useState('dashboard');
+    // 1. ESTADOS CLAVE
+    const [activeModule, setActiveModule] = useState('ticketsPestana'); // Inicia en Tickets
+    const [selectedTicketId, setSelectedTicketId] = useState(null); 
+    // ^ ESTADO PARA GUARDAR EL ID DEL TICKET SELECCIONADO
+
+    // 2. FUNCIÓN CENTRAL PARA ABRIR EL DETALLE
+    const handleTicketSelect = (ticketId) => {
+        // Validación: Solo guarda y cambia de vista si hay un ID válido.
+        if (ticketId) {
+            setSelectedTicketId(ticketId); // GUARDA EL ID
+            setActiveModule('detalleTicket'); // CAMBIA LA VISTA
+        } else {
+            console.error("No se puede abrir el detalle: ID de ticket no válido recibido desde TicketPestana.");
+        }
+    };
+
+    // 3. FUNCIÓN PARA VOLVER A LA LISTA
+    const handleVolverATickets = () => {
+        setSelectedTicketId(null); // Limpia el ID para la siguiente selección
+        setActiveModule('ticketsPestana'); // Vuelve a la lista
+    };
+
 
     const renderModule = () => {
         switch (activeModule) {
             case 'dashboard':
                 return <DashboardPage />;
+            
             case 'ticketsPestana':
-                return <TicketPestana setActiveModule={setActiveModule} />;
+                // IMPORTANTE: Pasamos la función 'handleTicketSelect' como prop 'onTicketSelect'.
+                return (
+                    <TicketPestana 
+                        onTicketSelect={handleTicketSelect} 
+                        setActiveModule={setActiveModule} 
+                    />
+                );
+            
             case 'historial':
                 return <TicketsModule />;
+            
             case 'detalleTicket':
-                return <DetalleTicketPage setActiveModule={setActiveModule} />;
+                // Validamos que el ID exista antes de renderizar DetalleTicketPage
+                if (!selectedTicketId) {
+                    return (
+                        <div className="error-id-view">
+                            <p>🚨 Error de Conexión 🚨</p>
+                            <p>No se pudo cargar el ticket. Detalles: No se proporcionó un ID de ticket válido.</p>
+                            <button className="volver-button" onClick={handleVolverATickets}>Volver a Tickets</button>
+                        </div>
+                    );
+                }
+                // ¡LA CLAVE! Le pasamos el ID almacenado a la página de detalle.
+                return (
+                    <DetalleTicketPage 
+                        ticketId={selectedTicketId} 
+                        setActiveModule={handleVolverATickets} // Usa la función de volver
+                    />
+                );
+            
             case 'informes':
                 return <Reporteria />;
+            
             case 'slaPage':
                 return <SLAPage setActiveModule={setActiveModule} />;
+            
             default:
                 return <div>Seleccione un módulo</div>;
         }

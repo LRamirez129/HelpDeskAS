@@ -6,6 +6,7 @@ import DepartamentosList from './Catalogos/DepartamentosList';
 import RepuestosList from './Catalogos/RepuestosList';
 import EstadosList from './Catalogos/EstadosList';
 import UsuariosList from './Catalogos/UsuariosList';
+import PeriodoList from './Catalogos/PeriodoList'; 
 
 // Importa otros catálogos según sea necesario
 
@@ -15,6 +16,7 @@ const catalogoCards = [
   { id: 'Tecnicos',       title: 'Técnicos',                 icon: 'bi-person-badge' },
   { id: 'Departamentos',  title: 'Departamentos',            icon: 'bi-building-fill-add' },  
   { id: 'Repuestos',      title: 'Repuestos',                icon: 'bi-hammer' },
+  { id: 'Periodos',       title: 'Períodos',                 icon: 'bi-calendar-date' },
   { id: 'Estados',        title: 'Estados',                  icon: 'bi-back' },
   { id: 'KnowledgeBase',  title: 'Base de Conocimientos',    icon: 'bi-database-check' },
   { id: 'CargasMasivas',  title: 'Cargas Masivas',           icon: 'bi-upload' },
@@ -31,6 +33,7 @@ function CatalogosAdmin() {
       case 'Departamentos': return <div><DepartamentosList /></div>;
       case 'Departamentos2': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
       case 'Repuestos': return <div><RepuestosList /></div>;
+      case 'Periodos': return <div><PeriodoList /></div>; 
       case 'Estados': return <div><EstadosList /></div>;
       case 'KnowledgeBase': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;
       case 'CargasMasivas': return <div>Aca pones la direccion de tus formularios {catalogoActual}</div>;

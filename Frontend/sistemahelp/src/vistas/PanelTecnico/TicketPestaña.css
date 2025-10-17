@@ -9,7 +9,12 @@
     --red-highlight: #e74c3c;
     --green-highlight: #2ecc71;
 
-    /* Nuevas variables para coincidir con el resto de la interfaz */
+    /* COLORES DE TUS MÉTRICAS (Widgets) para los FILTROS */
+    --color-filtro-estado: #d0e6ff; /* Azul claro (Abiertos) */
+    --color-filtro-prioridad: #fff3cd; /* Amarillo claro (En Proceso) */
+    --color-filtro-categoria: #d4edda; /* Verde claro (Cerrados) */
+    
+    /* Variables generales */
     --soft-celeste: #e0f7fa;
     --royal-blue: #0074B7;
     --navy-blue: #003B73;
@@ -22,14 +27,18 @@
     --info: #17a2b8;
 }
 
+/* ------------------------------------ */
+/* DISEÑO BASE DE PÁGINA Y GRID */
+/* ------------------------------------ */
+
 /* Contenedor principal del listado de tickets */
 .ticket-list-container {
     background-color: var(--soft-celeste);
     padding: 2rem;
     font-family: Arial, sans-serif;
-    min-height: 100vh; /* Asegura que ocupe al menos el 100% del alto de la ventana */
-    display: flex; /* Añade flexbox para control vertical */
-    flex-direction: column; /* Organiza los elementos en columna */
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
 }
 
 /* Encabezado del listado */
@@ -43,9 +52,13 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 20px;
-    flex-grow: 1; /* Permite que la cuadrícula se expanda para llenar el espacio restante */
-    align-content: start; /* Asegura que el contenido de la cuadrícula se alinee al inicio */
+    flex-grow: 1; 
+    align-content: start; 
 }
+
+/* ------------------------------------ */
+/* ESTILOS DE LA TARJETA (CARD) */
+/* ------------------------------------ */
 
 /* Estilo de cada tarjeta de ticket */
 .ticket-card {
@@ -82,14 +95,17 @@
     font-size: 0.8rem;
     padding: 4px 8px;
     border-radius: 20px;
-    color: white;
     font-weight: bold;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    color: var(--white); /* Default a blanco para asegurar legibilidad */
 }
 
+/* Estados de ticket (Mantenidos como estaban o adaptados a tus colores existentes) */
 .estado-abierto { background-color: #3498db; }
-.estado-asignado { background-color: #2c3e50; }
+.estado-asignado { background-color: var(--navy-blue); color: var(--white); }
 .estado-en-progreso { background-color: #f39c12; }
-.estado-resuelto { background-color: #2ecc71; }
+.estado-resuelto, .estado-cerrado { background-color: var(--green-highlight); }
+
 
 /* Cuerpo de la tarjeta */
 .ticket-card-body {
@@ -125,9 +141,8 @@
     gap: 10px;
 }
 
-/* Estilo de los botones */
+/* Estilo de los botones Abrir y SLA */
 .action-button {
-    /*display: flex;*/
     align-items: center;
     gap: 5px;
     padding: 8px 12px;
@@ -155,3 +170,135 @@
 }
 
 .sla-button:hover { background-color: #95a5a6; }
+
+
+/* ------------------------------------ */
+/* REGLAS PARA LA BARRA DE FILTROS (DISEÑO MODERNO CON COLORES) */
+/* ------------------------------------ */
+
+.ticket-filters-bar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 10px;
+    background-color: var(--card-bg); 
+    border: 1px solid var(--border-color);
+    border-radius: 8px; 
+    flex-wrap: wrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); 
+}
+
+/* Contenedor Base para Input y Selects */
+.filter-wrapper {
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    border: 1px solid var(--border-color); 
+    border-radius: 6px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+    padding: 0 5px 0 10px;
+    flex-grow: 1; 
+    min-width: 120px; 
+    transition: background-color 0.3s ease; 
+}
+
+/* 1. ESTADO: Azul Claro (Fondo del filtro) */
+.filter-select-estado {
+    background-color: var(--color-filtro-estado);
+    border-color: #a3ccf4; 
+}
+
+/* 2. PRIORIDAD: Amarillo Claro (Fondo del filtro) */
+.filter-select-prioridad {
+    background-color: var(--color-filtro-prioridad);
+    border-color: #fce8a6; 
+}
+
+/* 3. CATEGORÍA: Verde Claro (Fondo del filtro) */
+.filter-select-categoria {
+    background-color: var(--color-filtro-categoria);
+    border-color: #b5e8bb; 
+}
+
+/* BÚSQUEDA: Mantenemos el fondo blanco */
+.filter-search-wrapper {
+    background-color: var(--white);
+    flex-grow: 2; 
+    min-width: 250px; 
+    max-width: 400px;
+    padding: 0 5px 0 10px;
+}
+
+/* Reglas de enfoque y foco para todos los wrappers */
+.filter-wrapper:focus-within { 
+    border-color: var(--blue-highlight);
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    outline: none;
+}
+
+/* Estilo del Select y Input (transparentes para que se vea el color de fondo del wrapper) */
+.filter-select, .filter-input-search {
+    background-color: transparent; 
+    padding: 10px 0; 
+    border: none; 
+    font-size: 1rem;
+    color: var(--text-primary);
+    flex-grow: 1; 
+}
+
+/* Estilo de los iconos */
+.filter-icon {
+    height: 20px; 
+    width: 20px;
+    color: var(--medium-grey); 
+}
+
+/* REGLAS PARA EL BOTÓN DE LIMPIAR FILTROS */
+.clear-filters-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; 
+    height: 40px; 
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--border-color);
+    background-color: var(--white);
+    color: var(--medium-grey); 
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease-in-out;
+    flex-shrink: 0; 
+}
+
+.clear-filters-button:hover {
+    background-color: var(--red-highlight); 
+    color: var(--white); 
+    border-color: var(--red-highlight);
+}
+
+.clear-filters-button .filter-icon {
+    color: inherit; 
+}
+
+/* ------------------------------------ */
+/* RESPONSIVE DESIGN (Media Query) */
+/* ------------------------------------ */
+
+@media (max-width: 768px) {
+    .ticket-filters-bar {
+        flex-direction: column; 
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .filter-wrapper, .filter-search-wrapper, .clear-filters-button {
+        width: 100%; 
+        max-width: none;
+        flex-grow: 1;
+    }
+    
+    .clear-filters-button {
+        height: 50px; 
+    }
+}

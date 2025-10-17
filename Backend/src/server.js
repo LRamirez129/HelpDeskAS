@@ -9,6 +9,12 @@ import readRouter from "./routes/read.js";
 import updateRouter from "./routes/update.js"; 
 import deleteRouter from "./routes/delete.js"; 
 
+import repuestosRouter from './routes/repuestos.js'; 
+import periodosRouter from './routes/periodos.js'; 
+import asignadosRouter from './tecnico/asignados.js'; 
+import detalleTicketsRouter from './tecnico/detalletickets.js';
+import reporteRepuestoRouter from './tecnico/reporterepuesto.js';
+
 
 dotenv.config();
 
@@ -40,6 +46,12 @@ app.use("/api/read", readRouter);
 app.use("/api/update", updateRouter); 
 // ⬇️ registra la ruta de delete
 app.use("/api/delete", deleteRouter); 
+app.use("/api/repuestos", repuestosRouter); 
+app.use("/api/periodos", periodosRouter);
+app.use("/api/asignados", asignadosRouter);
+app.use("/api/detalletickets", detalleTicketsRouter);
+app.use("/api/reportes", reporteRepuestoRouter);
+
 
 const PORT = Number(process.env.PORT || 4000);
 app.listen(PORT, async () => {
