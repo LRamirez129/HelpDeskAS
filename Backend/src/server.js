@@ -6,6 +6,10 @@ import { initPool, execute } from "./db.js";
 import ticketsRouter from "./routes/tickets.js";
 import repuestosRouter from './routes/repuestos.js'; 
 import periodosRouter from './routes/periodos.js'; 
+import asignadosRouter from './tecnico/asignados.js'; 
+import detalleTicketsRouter from './tecnico/detalletickets.js';
+import reporteRepuestoRouter from './tecnico/reporterepuesto.js';
+
 
 dotenv.config();
 
@@ -31,7 +35,9 @@ app.get("/api/ping", async (req, res) => {
 app.use("/api/tickets", ticketsRouter);
 app.use("/api/repuestos", repuestosRouter); 
 app.use("/api/periodos", periodosRouter);
-
+app.use("/api/asignados", asignadosRouter);
+app.use("/api/detalletickets", detalleTicketsRouter);
+app.use("/api/reportes", reporteRepuestoRouter);
 
 
 const PORT = Number(process.env.PORT || 4000);
