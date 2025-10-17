@@ -1,0 +1,193 @@
+/* ======================================= */
+/* Estilos del Contenedor General del Reporte */
+/* ======================================= */
+.reporte-container {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.reporte-titulo {
+    color: #333;
+    border-bottom: 2px solid #007bff; /* Un color primario para destacar */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.reporte-meta {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+/* Estilos para mensajes (alertas) */
+.alert-info, .alert-danger {
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+
+/* ======================================= */
+/* Estilos de la Tabla */
+/* ======================================= */
+
+/* Permite el scroll horizontal en dispositivos pequeños */
+.reporte-tabla-scroll {
+    overflow-x: auto;
+}
+
+.reporte-tabla {
+    width: 100%;
+    border-collapse: collapse; /* Bordes unidos */
+    min-width: 600px; /* Asegura un ancho mínimo para tablas grandes */
+}
+
+/* Estilo de la cabecera */
+.reporte-tabla thead th {
+    background-color: #007bff; /* Fondo azul para la cabecera */
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+    border: 1px solid #0056b3;
+}
+
+/* Estilo de las celdas */
+.reporte-tabla td {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Filas cebra: alternar colores para mejorar la legibilidad */
+.reporte-tabla tbody tr:nth-child(even) {
+    background-color: #f8f9fa; /* Color más claro para filas pares */
+}
+
+/* Efecto hover */
+.reporte-tabla tbody tr:hover {
+    background-color: #e9ecef; /* Fondo ligeramente oscuro al pasar el ratón */
+    cursor: default;
+}
+
+/* Alineación central para la columna de Cantidad */
+.reporte-tabla tbody td:last-child {
+    text-align: center !important; 
+    font-weight: bold;
+}
+
+/* ======================================= */
+/* Estilos Específicos para el Panel de Filtros */
+/* ======================================= */
+
+.filter-panel {
+    /* Estilos del contenedor principal del panel de filtros */
+    display: flex;
+    flex-direction: column; /* Apilar elementos verticalmente */
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: #f7f9fb; /* Fondo ligeramente gris para separarlo de la tabla */
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+}
+
+.filter-panel h4 {
+    color: #495057;
+    margin-bottom: 10px;
+}
+
+.filter-controls-group {
+    /* Contenedor interno para los inputs y botones en una sola línea */
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; /* Permite que los elementos salten de línea en pantallas pequeñas */
+    align-items: center;
+}
+
+/* Estilo para inputs de fecha y texto/número */
+.filter-panel input[type="date"],
+.filter-panel input[type="number"],
+.filter-panel input[type="text"] {
+    padding: 8px 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #495057;
+    flex-grow: 1; /* Permite que crezcan, pero se limita con max-width */
+    max-width: 180px; 
+}
+
+
+/* ======================================= */
+/* Estilos para Botones de Acción (Aplicar, Limpiar, Exportar) */
+/* ======================================= */
+
+/* Botón Principal (Aplicar Filtros) */
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+/* Botón Secundario (Limpiar Filtros) */
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background-color: #5a6268;
+}
+
+/* Botón de Exportación (sugerido para Excel/PDF) */
+.btn-export {
+    background-color: #28a745; /* Verde */
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-export:hover:not(:disabled) {
+    background-color: #1e7e34;
+}
+
+/* Estado Deshabilitado */
+button:disabled {
+    background-color: #adb5bd;
+    cursor: not-allowed;
+    opacity: 0.7;
+}

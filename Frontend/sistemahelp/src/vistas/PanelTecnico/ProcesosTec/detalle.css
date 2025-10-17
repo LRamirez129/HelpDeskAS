@@ -1,3 +1,5 @@
+/* detalle.css */
+
 /* Colores y Variables */
 :root {
     --royal-blue: #0074B7;
@@ -191,7 +193,9 @@
     opacity: 1;
 }
 
-/* Estilos de la línea de tiempo del Historial */
+/* ========================================= */
+/* ESTILOS DEL HISTORIAL (Timeline) */
+/* ========================================= */
 .timeline {
     list-style: none;
     padding: 0;
@@ -227,9 +231,11 @@
 }
 
 .timeline-content {
-    background-color: var(--light-grey);
-    padding: 15px;
-    border-radius: 8px;
+    background-color: var(--white); 
+    padding: 15px; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    margin-bottom: 0;
 }
 
 .timeline-header {
@@ -266,34 +272,79 @@
     font-weight: bold;
 }
 
-/* Estilos de la lista de Repuestos */
+/* ========================================= */
+/* ESTILOS DE REPUESTOS (Corregido) */
+/* ========================================= */
 .repuestos-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    /* Añadimos la línea vertical similar al historial */
+    position: relative;
+    padding-left: 20px; /* Espacio para el punto */
+}
+
+/* Línea vertical para la lista de repuestos */
+.repuestos-list::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10px; 
+    height: 100%;
+    width: 2px;
+    background-color: #e9ecef;
 }
 
 .repuestos-item {
+    background-color: var(--white); 
+    padding: 20px; 
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    margin-bottom: 15px; 
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap; 
+    justify-content: flex-start; /* Alineación a la izquierda */
     align-items: center;
-    background-color: var(--light-grey);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
     color: var(--navy-blue);
     font-weight: 500;
+    border: 1px solid var(--light-grey); 
+    position: relative;
+    margin-left: 10px; 
 }
 
-.repuesto-estado {
-    padding: 4px 10px;
-    border-radius: 5px;
-    font-size: 12px;
+/* Punto para cada repuesto */
+.repuesto-dot {
+    position: absolute;
+    top: 5px; 
+    left: -25px; 
+    width: 12px;
+    height: 12px;
+    background-color: var(--royal-blue); 
+    border-radius: 50%;
+    border: 2px solid var(--white); 
+    z-index: 1; 
+}
+
+.repuesto-info {
+    /* Ocupa el espacio restante ya que quitamos el estado */
+    flex-basis: 100%; 
+    display: flex;
+    flex-direction: column;
+}
+
+.repuesto-info .nombre {
     font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
 }
 
-.repuesto-estado.solicitado { background-color: var(--info); color: var(--white); }
-.repuesto-estado.entregado { background-color: var(--success); color: var(--white); }
+.repuesto-info .codigo, .repuesto-info .cantidad {
+    font-size: 14px;
+    color: var(--medium-grey);
+}
+
+/* Se eliminan los estilos de .repuesto-estado */
+
 
 /* Estilos de los botones y formularios de Acciones */
 .action-group {
@@ -336,12 +387,13 @@
     background-color: #218838;
 }
 
-textarea, select {
+textarea, select, input[type="text"], input[type="number"] {
     width: 100%;
     padding: 10px;
     border-radius: 8px;
     border: 1px solid #ddd;
     box-sizing: border-box;
+    margin-bottom: 10px;
 }
 
 /* Estilo para el grupo de acciones de estado */
@@ -387,6 +439,25 @@ textarea, select {
     transform: scale(1.1);
 }
 
+/* Formulario de Repuestos */
+.repuesto-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.repuesto-form .form-group {
+    width: 100%;
+}
+
+.repuesto-form label {
+    font-weight: bold;
+    color: var(--navy-blue);
+    display: block;
+    margin-bottom: 5px;
+}
+
+
 /* Media Queries para diseño responsive */
 @media (max-width: 768px) {
     .main-content-wrapper {
@@ -404,4 +475,13 @@ textarea, select {
         width: 100%;
         justify-content: center;
     }
+}
+
+.volver-posicion {
+  position: absolute;
+  top: 30px; /* Ajusta este valor según el padding del contenedor principal */
+  left: 320px;
+  /* El marginBottom original ya no es necesario si usas top: 0, 
+     pero si quieres un poco de separación de la esquina, puedes usar */
+  margin: 10px; 
 }

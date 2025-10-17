@@ -3,7 +3,10 @@ import React, { useState } from 'react';
 
 import ReporteTicketsAsignados from './TicketsAsignados';
 import ReporteTicketsResueltos from './TicketsResueltos';
-import ReporteTiempoResolucion from './TiempoResolucion';
+
+// CAMBIO CLAVE 1: Importa el componente que acabas de crear
+import ReporteRepuestosPorUsuario from './RepuestosPorUsuario';
+
 import ReporteTicketsPorCategoria from './TicketsPorCategoria';
 import ReporteTicketsPendientes from './TicketsPendientes';
 import ReporteTicketsPorPrioridad from './TicketsPorPrioridad';
@@ -25,9 +28,10 @@ const reportCards = [
         icon: 'bi-check-circle'
     },
     {
-        id: 'tiempoResolucion',
-        title: 'Tiempo de Resolución',
-        icon: 'bi-stopwatch'
+        // El ID 'tiempoResolucion' es usado para el reporte de Repuestos.
+        id: 'tiempoResolucion', 
+        title: 'REPUESTOS', 
+        icon: 'bi-tools'
     },
     {
         id: 'ticketsPorCategoria',
@@ -74,8 +78,11 @@ function Reporteria() {
                 return <ReporteTicketsAsignados tecnicoId={idDelTecnico} />;
             case 'ticketsResueltos':
                 return <ReporteTicketsResueltos tecnicoId={idDelTecnico} fechaInicio={fechaInicio} fechaFin={fechaFin} />;
+            
+            // CAMBIO CLAVE 2: Renderizar el nuevo componente de Repuestos
             case 'tiempoResolucion':
-                return <ReporteTiempoResolucion tecnicoId={idDelTecnico} />;
+                return <ReporteRepuestosPorUsuario />;
+                
             case 'ticketsPorCategoria':
                 return <ReporteTicketsPorCategoria tecnicoId={idDelTecnico} />;
             case 'ticketsPendientes':
