@@ -1,0 +1,15 @@
+### Crear un ticket
+POST http://localhost:4000/api/tickets
+Content-Type: application/json
+
+{
+  "usuarioId": 1,
+  "asunto": "Falla en impresora demo",
+  "descripcion": "La impresora no responde",
+  "prioridad": "Alta"
+}
+
+###
+
+### Listar tickets del usuario
+GET http://localhost:4000/api/tickets?usuarioId=1&estados=Abierto,En%20progreso,Cerrado
