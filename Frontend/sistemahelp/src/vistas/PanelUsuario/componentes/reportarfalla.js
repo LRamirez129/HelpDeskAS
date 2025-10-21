@@ -1,12 +1,18 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+/*import React, { useState, useMemo, useRef, useEffect } from "react";
 import "./reportarfalla.css";
 
 /**
  * Formulario para Reportar Falla
  * Props:
+<<<<<<< Updated upstream
  *  - onCancelar(): vuelve al menú
  *  - onEnviar(payload): envía datos (por ahora solo llama y limpia)
  */
+=======
+ *  - onCancelar(): vuelve al menú (opcional)
+ *  - onEnviar(payload): envía datos (opcional)
+ *//*
+>>>>>>> Stashed changes
 export default function ReportarFalla({ onCancelar, onEnviar }) {
   const [titulo, setTitulo] = useState("");
   const [categoria, setCategoria] = useState("");
@@ -112,7 +118,7 @@ export default function ReportarFalla({ onCancelar, onEnviar }) {
           />
         </label>
 
-        {/* === CATEGORÍA (cards) === */}
+        {/* === CATEGORÍA (cards) === *//*}
         <div className="rf-field">
           <span className="rf-label">
             Categoría <span className="req">*</span>
@@ -147,7 +153,11 @@ export default function ReportarFalla({ onCancelar, onEnviar }) {
           {showCatError && <div className="rf-error">Selecciona una categoría.</div>}
         </div>
 
+<<<<<<< Updated upstream
         {/* SUBCATEGORÍA (fila propia) */}
+=======
+        {/* SUBCATEGORÍA *//*}
+>>>>>>> Stashed changes
         <div className="rf-row">
         <div className="rf-field">
             <div className="rf-labelwrap" ref={subRef}>
@@ -189,8 +199,28 @@ export default function ReportarFalla({ onCancelar, onEnviar }) {
                 </div>
             </div>
 
+<<<<<<< Updated upstream
         
         {/* PRIORIDAD (fila independiente debajo) */}
+=======
+            <select
+              id="rf-subcategoria"
+              value={subcategoria}
+              onChange={(e) => setSubcategoria(e.target.value)}
+              disabled={!subcategoriasDisponibles.length}
+            >
+              <option value="">
+                {subcategoriasDisponibles.length ? "Selecciona una subcategoría" : "No disponible"}
+              </option>
+              {subcategoriasDisponibles.map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* PRIORIDAD *//*}
+>>>>>>> Stashed changes
         <div className="rf-row2">
         <div className="rf-field">
             <div className="rf-labelwrap" ref={priRef}>
@@ -232,6 +262,10 @@ export default function ReportarFalla({ onCancelar, onEnviar }) {
         </div>
         </div>
 
+<<<<<<< Updated upstream
+=======
+        {/* DESCRIPCIÓN *//*}
+>>>>>>> Stashed changes
         <label className="rf-field">
           <span className="rf-label">Descripción</span>
           <textarea
@@ -244,6 +278,10 @@ export default function ReportarFalla({ onCancelar, onEnviar }) {
           <div className="rf-counter">{descripcion.length}/{MAX_DESC}</div>
         </label>
 
+<<<<<<< Updated upstream
+=======
+        {/* ARCHIVO *//*}
+>>>>>>> Stashed changes
         <label className="rf-field">
           <span className="rf-label">Adjuntar evidencia (opcional)</span>
           <input type="file" accept="image/*,application/pdf" onChange={manejarArchivo} />
@@ -254,7 +292,25 @@ export default function ReportarFalla({ onCancelar, onEnviar }) {
           )}
         </label>
 
+<<<<<<< Updated upstream
         <div className="rf-actions">
+=======
+        {/* === Botones reportar o cancelar === *//*}
+        <div className="form-buttons-icons">
+          <button
+            type="submit"
+            className="icon-wrap"
+            data-tooltip="Reportar"
+            onClick={enviar}
+          >
+          <img
+            src={informIcon}
+            alt="Enviar"
+            className="btn-action-icon"
+            onClick={enviar}
+          /></button>
+
+>>>>>>> Stashed changes
           <button
             type="button"
             className="rf-btn rf-btn-sec"
@@ -265,6 +321,258 @@ export default function ReportarFalla({ onCancelar, onEnviar }) {
           </button>
           <button type="submit" className="rf-btn rf-btn-pri">
             Enviar
+          </button>
+        </div>
+      </form>
+    </section>
+  );
+}*/
+import React, { useState, useMemo, useRef, useEffect } from "react";
+import "./reportarfalla.css";
+
+import informIcon from "../../../Iconos/inform.png";
+import cancelarIcon from "../../../Iconos/cancelar.png";
+
+export default function ReportarFalla({ onCancelar, onEnviar }) {
+  const [titulo, setTitulo] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [subcategoria, setSubcategoria] = useState("");
+  const [prioridad, setPrioridad] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [archivo, setArchivo] = useState(null);
+  const [showCatError, setShowCatError] = useState(false);
+  const [openHelp, setOpenHelp] = useState(null);
+  const [mensaje, setMensaje] = useState("");
+  const [enviando, setEnviando] = useState(false);
+
+  const subRef = useRef(null);
+  const priRef = useRef(null);
+
+  const mapaSubcategorias = useMemo(() => ({
+    Hardware: ["PC/Escritorio", "Laptop", "Impresora", "Monitor", "Periféricos"],
+    Software: ["Office/Correo", "ERP", "Licencias", "Actualizaciones", "Errores sistema"],
+    Red: ["Internet", "VPN", "Wi-Fi", "Switch/Router", "DNS/DHCP"],
+    Accesos: ["Usuario/Contraseña", "Bloqueo de cuenta", "Permisos", "Single Sign-On"],
+  }), []);
+
+  const subcategoriasDisponibles = categoria ? mapaSubcategorias[categoria] || [] : [];
+  const MAX_DESC = 500;
+
+  function manejarArchivo(e) {
+    const f = e.target.files?.[0] || null;
+    setArchivo(f);
+  }
+
+  function handleCardKey(e, id) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      setCategoria(id);
+      setSubcategoria("");
+      setShowCatError(false);
+    }
+  }
+
+  async function enviar(e) {
+    e.preventDefault();
+
+    if (!categoria) setShowCatError(true);
+    if (!titulo || !categoria || !prioridad) return;
+
+    const usuarioId = 1; // ⚠️ Reemplaza esto por el ID real del usuario logueado
+
+    if (!usuarioId) {
+      setMensaje("Error: Usuario no autenticado.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("usuarioId", usuarioId);
+    formData.append("asunto", titulo);
+    formData.append("descripcion", descripcion);
+    formData.append("prioridad", prioridad);
+    formData.append("estado", "Abierto");
+    if (archivo) formData.append("archivo", archivo);
+
+    setEnviando(true);
+    setMensaje("");
+
+    try {
+      const res = await fetch("http://localhost:4000/api/tickets", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMensaje("✅ Ticket creado correctamente.");
+        // Limpieza de campos
+        setTitulo("");
+        setCategoria("");
+        setSubcategoria("");
+        setPrioridad("");
+        setDescripcion("");
+        setArchivo(null);
+        onEnviar?.(data); // puede usar el ID del ticket
+      } else {
+        setMensaje(`❌ ${data.error || "Error al crear el ticket."}`);
+      }
+    } catch (err) {
+      setMensaje("❌ Error de conexión con el servidor.");
+    } finally {
+      setEnviando(false);
+    }
+  }
+
+  useEffect(() => {
+    function onKey(e) { if (e.key === "Escape") setOpenHelp(null); }
+    function onClick(e) {
+      const insideSub = subRef.current?.contains(e.target);
+      const insidePri = priRef.current?.contains(e.target);
+      if (!insideSub && !insidePri) setOpenHelp(null);
+    }
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onClick);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onClick);
+    };
+  }, []);
+
+  return (
+    <section className="rf-card" aria-labelledby="rf-title">
+      <h2 id="rf-title" className="rf-title">Reportar Falla</h2>
+      <p className="rf-hint">
+        Completa los campos obligatorios (<span className="req">*</span>).
+      </p>
+
+      {mensaje && <div className="rf-mensaje">{mensaje}</div>}
+      {enviando && <div className="rf-mensaje">Enviando...</div>}
+
+      <form className="rf-form" onSubmit={enviar}>
+        <label className="rf-field">
+          <span className="rf-label">
+            Título <span className="req">*</span>
+          </span>
+          <input
+            type="text"
+            required
+            placeholder="Breve título de la falla"
+            value={titulo}
+            onChange={(e) => setTitulo(e.target.value)}
+          />
+        </label>
+
+        {/* === Categoría === */}
+        <div className="rf-field">
+          <span className="rf-label">Categoría <span className="req">*</span></span>
+          <div className="rf-catgrid" role="radiogroup" aria-label="Categoría">
+            {["Hardware", "Software", "Red", "Accesos"].map((id) => (
+              <div
+                key={id}
+                role="radio"
+                tabIndex={0}
+                aria-checked={categoria === id}
+                className={`rf-cat ${categoria === id ? "active" : ""}`}
+                onClick={() => { setCategoria(id); setSubcategoria(""); setShowCatError(false); }}
+                onKeyDown={(e) => handleCardKey(e, id)}
+              >
+                <i className={`bi bi-${id === "Red" ? "wifi" : id === "Software" ? "window-stack" : id === "Hardware" ? "pc-display" : "shield-lock"}`}></i>
+                <span>{id}</span>
+              </div>
+            ))}
+          </div>
+          {showCatError && <div className="rf-error">Selecciona una categoría.</div>}
+        </div>
+
+        {/* Subcategoría */}
+        <div className="rf-row">
+          <div className="rf-field">
+            <div className="rf-labelwrap" ref={subRef}>
+              <label htmlFor="rf-subcategoria" className="rf-label">Subcategoría</label>
+              <select
+                id="rf-subcategoria"
+                value={subcategoria}
+                onChange={(e) => setSubcategoria(e.target.value)}
+                disabled={!subcategoriasDisponibles.length}
+              >
+                <option value="">
+                  {subcategoriasDisponibles.length ? "Selecciona una subcategoría" : "No disponible"}
+                </option>
+                {subcategoriasDisponibles.map((s) => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Prioridad */}
+        <div className="rf-row2">
+          <div className="rf-field">
+            <div className="rf-labelwrap" ref={priRef}>
+              <label htmlFor="rf-prioridad" className="rf-label">Prioridad <span className="req">*</span></label>
+              <select
+                id="rf-prioridad"
+                required
+                value={prioridad}
+                onChange={(e) => setPrioridad(e.target.value)}
+              >
+                <option value="">Selecciona prioridad</option>
+                <option>Baja</option>
+                <option>Media</option>
+                <option>Alta</option>
+                <option>Crítica</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Descripción */}
+        <label className="rf-field">
+          <span className="rf-label">Descripción</span>
+          <textarea
+            rows={5}
+            maxLength={MAX_DESC}
+            placeholder="Describe el problema, pasos para reproducir, mensajes de error, etc."
+            value={descripcion}
+            onChange={(e) => setDescripcion(e.target.value)}
+          />
+          <div className="rf-counter">{descripcion.length}/{MAX_DESC}</div>
+        </label>
+
+        {/* Archivo */}
+        <label className="rf-field">
+          <span className="rf-label">Adjuntar evidencia (opcional)</span>
+          <input
+            id="rf-file"
+            title="Seleccionar archivo"
+            type="file"
+            accept="image/*,application/pdf"
+            onChange={manejarArchivo}
+            className="rf-file-input"
+          />
+          {archivo && <div className="rf-file">Archivo seleccionado: <strong>{archivo.name}</strong></div>}
+        </label>
+
+        {/* Botones */}
+        <div className="form-buttons-icons">
+          <button
+            type="submit"
+            className="icon-wrap"
+            data-tooltip="Reportar"
+            disabled={enviando}
+          >
+            <img src={informIcon} alt="Enviar" className="btn-action-icon" />
+          </button>
+
+          <button
+            type="button"
+            className="icon-wrap"
+            data-tooltip="Cancelar"
+            onClick={() => onCancelar?.()}
+          >
+            <img src={cancelarIcon} alt="Cancelar" className="btn-action-icon" />
           </button>
         </div>
       </form>
